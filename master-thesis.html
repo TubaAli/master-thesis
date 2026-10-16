@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-  /* Tekna subset for this thesis: Petal Cream + Fuji Lilac (light, dominant), Koki-murasaki (headings & design only) */
+  /* Tekna subset: Petal Cream + Fuji Lilac (light, dominant), Koki-murasaki (headings & design only) */
   :root {
     --cream: #FBF3EC; --lilac: #DDC8EE; --lilac-tint: #F1E7F6; --murasaki: #5C1142;
     --bg: var(--cream); --surface: #FFFBF7; --soft: var(--lilac-tint);
@@ -16,14 +16,11 @@
     --lattice: rgba(92, 17, 66, .06);
   }
   * { box-sizing: border-box; }
-  body {
-    margin: 0; background: var(--bg); color: var(--text);
-    font: 17px/1.65 "DM Sans", system-ui, sans-serif;
-  }
-  h1, h2, h3, .num { font-family: Outfit, "DM Sans", sans-serif; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.6 "DM Sans", system-ui, sans-serif; }
+  h1, h2, h3, .num, button { font-family: Outfit, "DM Sans", sans-serif; }
   strong { color: var(--head); }
+  button { cursor: pointer; }
 
-  /* Header: jaali/kumiko lattice — light through structure */
   .hero {
     position: relative; overflow: hidden; background-color: var(--soft);
     background-image:
@@ -33,56 +30,103 @@
       linear-gradient(-45deg, transparent 48%, var(--lattice) 49%, var(--lattice) 51%, transparent 52%);
     background-size: 28px 28px;
   }
-  .hero::after { /* sun motif, as a ring */
-    content: ""; position: absolute; width: 220px; height: 220px; border-radius: 50%;
-    border: 18px solid var(--lilac); right: -50px; top: -60px;
-  }
-  .hero .wrap { position: relative; z-index: 1; padding-top: 56px; padding-bottom: 48px; }
-  .wrap { max-width: 800px; margin: 0 auto; padding-left: 16px; padding-right: 16px; }
+  .hero::after { content: ""; position: absolute; width: 220px; height: 220px; border-radius: 50%;
+                 border: 18px solid var(--lilac); right: -50px; top: -60px; }
+  .hero .wrap { position: relative; z-index: 1; padding-top: 52px; padding-bottom: 44px; }
+  .wrap { max-width: 820px; margin: 0 auto; padding-left: 16px; padding-right: 16px; }
   .meta { color: var(--muted); font-size: 14px; }
-  .tag { display: inline-block; background: var(--lilac); color: var(--head);
-         font-size: 12px; font-weight: 700; padding: 3px 12px; border-radius: 999px; }
-  h1 { font-size: clamp(32px, 6vw, 52px); line-height: 1.05; font-weight: 700;
-       color: var(--head); margin: 14px 0 10px; letter-spacing: -.01em; max-width: 14ch; }
-  .bar { width: 72px; height: 6px; background: var(--murasaki); margin: 18px 0 14px; }
+  .tag { display: inline-block; background: var(--lilac); color: var(--head); font-size: 12px; font-weight: 700;
+         padding: 3px 12px; border-radius: 999px; }
+  h1 { font-size: clamp(30px, 5.5vw, 48px); line-height: 1.08; font-weight: 700; color: var(--head);
+       margin: 14px 0 10px; letter-spacing: -.01em; max-width: 18ch; }
+  .bar { width: 72px; height: 6px; background: var(--murasaki); margin: 16px 0 14px; }
 
   main.wrap { padding-bottom: 72px; }
   section { margin-top: 56px; }
-  h2 { display: flex; align-items: baseline; gap: 14px; font-size: 24px; font-weight: 600;
-       color: var(--head); margin: 0 0 16px; }
+  h2 { display: flex; align-items: baseline; gap: 14px; font-size: 24px; font-weight: 600; color: var(--head); margin: 0 0 6px; }
   .num { color: var(--lilac); font-size: 40px; font-weight: 700; line-height: 1; -webkit-text-stroke: 1px var(--murasaki); }
-  h3 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em;
-       color: var(--head); margin: 28px 0 10px; }
-  .statement { background: var(--soft); border-left: 4px solid var(--murasaki);
-               padding: 18px 22px; font-size: 19px; font-weight: 500; margin: 0 0 18px; }
-  ol.layers { list-style: none; counter-reset: layer; padding: 0; margin: 0; display: grid; gap: 10px; }
-  ol.layers li { counter-increment: layer; display: grid; grid-template-columns: 32px 1fr; gap: 10px; align-items: start; }
-  ol.layers li::before { content: counter(layer); font-family: Outfit, sans-serif; font-weight: 700;
-       color: var(--head); background: var(--lilac); width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; }
+  .hint { color: var(--muted); font-size: 14px; margin: 0 0 18px; }
+  h3 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--head); margin: 26px 0 10px; }
+  .statement { background: var(--soft); border-left: 4px solid var(--murasaki); padding: 18px 22px; font-size: 19px; font-weight: 500; margin: 0 0 18px; }
 
   .table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); font-size: 15px; }
-  .table th, .table td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .table th, .table td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
   .table th { background: var(--soft); color: var(--head); font-weight: 700; font-size: 13px; }
   .table tr:last-child td { border-bottom: 0; }
-  .table td:first-child { font-weight: 700; white-space: nowrap; color: var(--head); }
+  .table td:first-child { font-weight: 700; color: var(--head); }
 
-  .gaps { background: var(--soft); border: 1px solid var(--line); padding: 20px 24px 16px 46px; margin: 0; }
-  .gaps li { margin: 8px 0; }
-  .gaps li::marker { color: var(--head); font-family: Outfit, sans-serif; font-weight: 700; }
+  /* Journey map (flowchart) */
+  .map { display: grid; gap: 0; }
+  .node { display: grid; grid-template-columns: 44px 1fr; gap: 12px; align-items: start; background: none; border: 0;
+          text-align: left; padding: 0; color: inherit; font: inherit; }
+  .node .dot { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 16px;
+               border: 2px solid var(--murasaki); background: var(--surface); color: var(--head); position: relative; }
+  .node:not(:last-child) .dot::after { content: ""; position: absolute; top: 44px; left: 50%; width: 2px; height: 26px;
+               background: var(--lilac); transform: translateX(-50%); }
+  .node .label { padding: 9px 14px; border-radius: 10px; margin-bottom: 26px; border: 1px solid transparent; transition: background .15s; }
+  .node .label b { font-family: Outfit, sans-serif; color: var(--head); font-weight: 600; }
+  .node .label small { display: block; color: var(--muted); font-size: 13px; }
+  .node:hover .label { background: var(--soft); }
+  .node.active .label { background: var(--soft); border-color: var(--lilac); }
+  .node.active .dot { background: var(--murasaki); color: var(--cream); }
+  .node[data-s="dropped"] .label b { text-decoration: line-through; text-decoration-color: var(--muted); }
+  .chip { display: inline-block; font-size: 11px; font-weight: 700; padding: 1px 9px; border-radius: 999px; margin-left: 6px;
+          vertical-align: 2px; background: var(--lilac); color: var(--head); text-decoration: none; }
+  .chip.dropped { background: transparent; border: 1px solid var(--muted); color: var(--muted); }
+  .chip.changed { background: transparent; border: 1px dashed var(--murasaki); color: var(--head); }
+  .chip.now { background: var(--murasaki); color: var(--cream); }
+
+  .journey { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 28px; align-items: start; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px 24px; position: sticky; top: 16px; }
+  .card h4 { font-family: Outfit, sans-serif; font-size: 21px; color: var(--head); margin: 6px 0 12px; line-height: 1.25; }
+  .card ul { padding-left: 20px; margin: 6px 0 14px; }
+  .card li { margin: 4px 0; }
+  .card .why { background: var(--soft); border-radius: 10px; padding: 12px 16px; }
+  .card .why b { font-family: Outfit, sans-serif; color: var(--head); display: block; margin-bottom: 2px; }
+  .nav { display: flex; justify-content: space-between; align-items: center; margin-top: 18px; gap: 10px; }
+  .btn { border: 2px solid var(--murasaki); background: var(--surface); color: var(--head); font-weight: 600; font-size: 15px;
+         padding: 8px 18px; border-radius: 999px; }
+  .btn.primary { background: var(--murasaki); color: var(--cream); }
+  .btn:disabled { opacity: .35; cursor: default; }
+  .step { color: var(--muted); font-size: 13px; }
+
+  /* Game */
+  .game { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px 24px; }
+  .game .q { font-family: Outfit, sans-serif; font-size: 19px; color: var(--head); margin: 4px 0 14px; }
+  .opts { display: grid; gap: 10px; }
+  .opt { text-align: left; border: 1px solid var(--line); background: var(--bg); color: var(--text); font: inherit; font-size: 16px;
+         padding: 11px 16px; border-radius: 10px; }
+  .opt:hover:not(:disabled) { border-color: var(--murasaki); }
+  .opt.right { background: var(--lilac); border-color: var(--murasaki); color: var(--head); font-weight: 600; }
+  .opt.wrong { opacity: .5; text-decoration: line-through; }
+  .feedback { margin-top: 14px; min-height: 24px; color: var(--head); font-weight: 500; }
+  .score { float: right; font-size: 13px; color: var(--muted); }
+
+  .checks { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 18px; }
+  .checks li { padding-left: 26px; position: relative; }
+  .checks li::before { content: "✓"; position: absolute; left: 0; top: 0; width: 18px; height: 18px; border-radius: 50%; background: var(--lilac);
+                       color: var(--head); font-size: 12px; font-weight: 700; display: grid; place-items: center; margin-top: 4px; }
+
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .box { background: var(--soft); border-radius: 12px; padding: 16px 20px; }
+  .box h3 { margin-top: 0; }
+  .box ul { margin: 0; padding-left: 20px; }
 
   footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
-  @media (max-width: 560px) {
+  @media (max-width: 680px) {
+    .journey, .split { grid-template-columns: 1fr; }
+    .card { position: static; }
+    .checks { grid-template-columns: 1fr; }
     .hero::after { width: 140px; height: 140px; right: -40px; top: -40px; }
     .statement { font-size: 17px; }
-    .table td:first-child { white-space: normal; }
   }
 </style>
 </head>
 <body>
 <header class="hero">
   <div class="wrap">
-    <span class="tag">v1 · 2026-10-16</span>
-    <h1>Ecocentric AI-Agent Societies</h1>
+    <span class="tag">v2 · 2026-10-16</span>
+    <h1>Proxies for Absent Stakeholders in Agentic Economies</h1>
     <div class="bar"></div>
     <div class="meta">Tuba Ali · Graduate School of Design &amp; Science, Chiba Institute of Technology</div>
     <div class="meta">Advisor: Ira Winder · Committee: Catharina Maracke, Joi Ito</div>
@@ -90,61 +134,172 @@
 </header>
 
 <main class="wrap">
-  <section>
-    <h2><span class="num">01</span>What do I want to be an expert in?</h2>
-    <p class="statement">Designing and evaluating AI-agent societies whose values account for non-human life, applied to regenerative economies.</p>
-    <ol class="layers">
-      <li><span><strong>AI for regenerative economics</strong>: economies where AI agents treat nature as a stakeholder.</span></li>
-      <li><span><strong>AI-agent societies</strong>: simulating how multi-agent systems evolve norms, governance and values.</span></li>
-      <li><span><strong>Ecocentric AI alignment</strong>: methods (value constitutions first) that make models weigh ecological interests.</span></li>
-    </ol>
-  </section>
 
   <section>
-    <h2><span class="num">02</span>What question is worth answering, and for whom?</h2>
-    <p class="statement">In a simulated decentralized society where nature is an economic stakeholder, how do LLM agents with ecocentric vs. anthropocentric constitutions compare, with each other and with humans, in human welfare, value drift and governance outcomes?</p>
+    <h2><span class="num">01</span>Where I am now</h2>
+    <p class="hint">The direction after today's exploration.</p>
+    <p class="statement">AI agents are starting to buy, lend and negotiate with each other. When two agents strike a deal, the parties it affects most (an ecosystem, a community, a tradition) have no seat. Can a proxy agent give them one that is faithful, hard to capture, and leaves all parties better off?</p>
 
-    <h3>Sub-questions</h3>
     <table class="table">
-      <tr><th>RQ</th><th>Type</th><th>Question</th></tr>
-      <tr><td>RQ1</td><td>Measure</td><td>How do current LLMs trade off human and ecological interests compared with humans? (scenario game, 100–300 participants)</td></tr>
-      <tr><td>RQ2</td><td>Simulate</td><td>Over many generations, do ecocentric values persist or drift, and which governance rules does each society adopt?</td></tr>
-      <tr><td>RQ3</td><td>Trade-off</td><td>Does an ecocentric constitution cost human welfare, or can humans and nature do better together?</td></tr>
+      <tr><th>RQ</th><th>Question</th><th>Metric</th></tr>
+      <tr><td>RQ1 · Blindness</td><td>In agent-to-agent deals, how much cost lands on absent stakeholders?</td><td>External cost per deal</td></tr>
+      <tr><td>RQ2 · Fidelity &amp; capture</td><td>Does the proxy match ground truth from communities and experts? Can trading agents persuade it, bribe it, or collude around it?</td><td>Fidelity score; capture rate</td></tr>
+      <tr><td>RQ3 · Joint gains</td><td>Does adding a proxy increase total value for everyone, including the trading agents?</td><td>Change in joint value</td></tr>
     </table>
 
-    <h3>Who it is for</h3>
+    <h3>Absent stakeholders (Ostrom's social-ecological systems + more-than-human design)</h3>
+    <p style="margin:0">Nature · community relationships · cultural traditions · future generations</p>
+
+    <h3>Use cases</h3>
     <table class="table">
-      <tr><th>Audience</th><th>Why it matters to them</th></tr>
-      <tr><td>AI labs</td><td>Evidence for building ecocentric values into model design</td></tr>
-      <tr><td>Policymakers</td><td>Tested governance rules for AI-mediated economies</td></tr>
-      <tr><td>Founders / investors</td><td>A validated basis for regenerative-economy ventures</td></tr>
+      <tr><th>Use case</th><th>Deal</th><th>Absent stakeholder</th></tr>
+      <tr><td>Agentic procurement</td><td>Buyer agent ↔ supplier agent</td><td>Sourcing region's ecosystem and labour community</td></tr>
+      <tr><td>AI lending</td><td>Credit agent ↔ small local business</td><td>Neighbourhood ties, a local tradition</td></tr>
+      <tr><td>Infrastructure siting</td><td>Developer agent ↔ municipality agent</td><td>Residents, local ecology (Inzai data-centre case)</td></tr>
     </table>
+
+    <h3>My criteria, all met</h3>
+    <ul class="checks">
+      <li>Win-win: RQ3 measures joint value</li>
+      <li>Simulated: multi-agent sandbox</li>
+      <li>Startup path: proxy layer as an API</li>
+      <li>Not a red ocean: no benchmark scores absent parties</li>
+      <li>AI safety: capture &amp; collusion (Cooperative AI Foundation, 2025)</li>
+      <li>Policy: who certifies a proxy, and its standing</li>
+    </ul>
   </section>
 
   <section>
-    <h2><span class="num">03</span>Design choices</h2>
-    <table class="table">
-      <tr><th>Dimension</th><th>Choice</th></tr>
-      <tr><td>Method</td><td>Mixed: measure first, then simulate long-term consequences</td></tr>
-      <tr><td>Setting</td><td>Decentralized virtual society; nature holds an economic stake</td></tr>
-      <tr><td>Lever</td><td>Value constitutions (core); fine-tuning (stretch goal)</td></tr>
-      <tr><td>Metrics</td><td>Human welfare, value drift, governance outcomes</td></tr>
-      <tr><td>Human baseline</td><td>Online scenario game, 100–300 participants</td></tr>
-      <tr><td>Contribution</td><td>Paper + open simulation tool</td></tr>
-    </table>
+    <h2><span class="num">02</span>How I got here</h2>
+    <p class="hint">Tap a stop, or use Next. Crossed-out stops are directions I dropped.</p>
+    <div class="journey">
+      <div class="map" id="map" role="tablist" aria-label="Exploration steps"></div>
+      <div class="card" id="card" aria-live="polite"></div>
+    </div>
   </section>
 
   <section>
-    <h2><span class="num">04</span>Open gaps</h2>
-    <ol class="gaps">
-      <li><strong>Add ecosystem health as a metric.</strong> An ecocentric thesis needs it, or RQ3 can't be answered.</li>
-      <li><strong>Human study:</strong> needs a budget and ethics approval. Start both early.</li>
-      <li><strong>Define "ecocentric"</strong> from the literature (e.g., deep ecology, Rights of Nature).</li>
-      <li><strong>Novelty:</strong> position against prior LLM-agent commons simulations (e.g., GovSim).</li>
-    </ol>
+    <h2><span class="num">03</span>Guess my reasoning</h2>
+    <p class="hint">A 5-question game about why I made each decision.</p>
+    <div class="game" id="game"></div>
   </section>
 
-  <footer>Version 1. Supersedes the IDP topic "transaction and independent economic zones" (May 2026). Designed in the Tekna palette (Petal Cream, Fuji Lilac, Koki-murasaki).</footer>
+  <section>
+    <h2><span class="num">04</span>Scope</h2>
+    <div class="split">
+      <div class="box">
+        <h3>In the thesis</h3>
+        <ul>
+          <li>RQ1 + RQ2</li>
+          <li>First version of RQ3</li>
+          <li>Simulation, 1–2 use cases</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>After the thesis</h3>
+        <ul>
+          <li>All 3 use cases</li>
+          <li>Certification standard for proxies</li>
+          <li>Proxy-layer API startup</li>
+          <li>Policy work</li>
+        </ul>
+      </div>
+    </div>
+    <h3>Guardrail</h3>
+    <p style="margin:0">Proxies <strong>inform</strong> real consultation; they never <strong>replace</strong> it.</p>
+    <h3>Next step</h3>
+    <p style="margin:0">Roadmap: what fits in the thesis vs. later.</p>
+  </section>
+
+  <footer>v2 supersedes v1 "Ecocentric AI-Agent Societies" (see version history on GitHub). Designed in the Tekna palette.</footer>
 </main>
+
+<script>
+const stops = [
+  { t: "Community economies", s: "changed", sub: "IDP, May 2026",
+    did: ["Decentralized, local economic zones", "Prototype in Woven City", "Key question: is it possible starting from Japan?"],
+    why: "Too broad and not testable. My interests moved toward AI values." },
+  { t: "Self-discovery rounds", s: "kept", sub: "Multiple-choice Q&A",
+    did: ["Pull: AI behavior & values, future & virtual societies, startups", "Frustration: AI serves only humans", "Simulation I'd watch: AI + ecosystem", "Audience: AI labs, policymakers, founders"],
+    why: "Showed my core: whose values AI holds, and who gets left out." },
+  { t: "v1: Ecocentric AI-agent societies", s: "dropped", sub: "Constitutions, value drift, human baseline",
+    did: ["Ecocentric vs. anthropocentric constitutions", "Decentralized society; nature as stakeholder", "Metrics: human welfare, value drift, governance"],
+    why: "Red ocean (GovSim, Concordia, Project Sid, AgentSociety) and inconsistent: no ecosystem metric, a human baseline that can't play 100 generations, prompts ≠ model design." },
+  { t: "Four novel options", s: "kept", sub: "Less crowded spaces",
+    did: ["1. AI as proxy for nature ✓", "2. Ecological blindness in AI finance agents ✓", "3. Wallets for nature (later)", "4. Cross-cultural views of nature (already in my current paper)"],
+    why: "Prior work only measures text. Decisions and representation are almost empty." },
+  { t: "Ecology → voiceless stakeholders", s: "kept", sub: "Broader, but scoped",
+    did: ["Nature + community relationships + cultural traditions", "Grounded in Ostrom's social-ecological systems", "Scoped: 3 stakeholder types, 1 decision, 1 case"],
+    why: "Treats social and ecological parts as one system without becoming endless." },
+  { t: "Proxy Council for data centres", s: "changed", sub: "Inzai, Tsukuba, Hino disputes",
+    did: ["Proxies negotiate with a developer agent", "Ground truth: real resident disputes", "Framed as advocacy"],
+    why: "Too 'goodwill' and too infrastructure-only. Reframed as win-win co-design, and infrastructure became one use case." },
+  { t: "Proxies for absent stakeholders", s: "now", sub: "Directions 1 + 2 combined",
+    did: ["Problem (2): agents push costs onto absent parties", "Solution (1): a proxy agent speaks for them", "Tested across 3 use cases in simulation"],
+    why: "Meets all my criteria: win-win, simulated, startup path, not a red ocean, AI safety, policy, future-facing." }
+];
+const label = { kept: "kept", dropped: "dropped", changed: "changed", now: "now" };
+const map = document.getElementById("map"), card = document.getElementById("card");
+let cur = 0;
+stops.forEach((st, i) => {
+  const b = document.createElement("button");
+  b.className = "node"; b.dataset.s = st.s; b.setAttribute("role", "tab");
+  b.innerHTML = `<span class="dot">${i + 1}</span><span class="label"><b>${st.t}</b><span class="chip ${st.s}">${label[st.s]}</span><small>${st.sub}</small></span>`;
+  b.onclick = () => { show(i); if (innerWidth < 680) card.scrollIntoView({ behavior: "smooth", block: "start" }); };
+  map.appendChild(b);
+});
+function show(i) {
+  cur = i; const st = stops[i];
+  [...map.children].forEach((n, j) => { n.classList.toggle("active", j === i); n.setAttribute("aria-selected", j === i); });
+  card.innerHTML = `
+    <span class="chip ${st.s}" style="margin:0">${label[st.s]}</span>
+    <h4>${st.t}</h4>
+    <ul>${st.did.map(d => `<li>${d}</li>`).join("")}</ul>
+    <div class="why"><b>Why</b>${st.why}</div>
+    <div class="nav">
+      <button class="btn" ${i === 0 ? "disabled" : ""} onclick="show(${i - 1})">← Back</button>
+      <span class="step">${i + 1} / ${stops.length}</span>
+      <button class="btn primary" ${i === stops.length - 1 ? "disabled" : ""} onclick="show(${i + 1})">Next →</button>
+    </div>`;
+}
+show(0);
+
+const quiz = [
+  { q: "Why did I drop v1 (Ecocentric AI-agent societies)?", o: ["It wasn't about AI", "It was a red ocean and had inconsistencies", "My advisor rejected it"], a: 1,
+    e: "GovSim already covers LLM agents in the commons, and v1 had no ecosystem metric." },
+  { q: "Why broaden 'ecology' beyond forests and rivers?", o: ["To include communities and traditions as one system", "To make the thesis bigger", "Because nature is too hard to simulate"], a: 0,
+    e: "Ostrom's social-ecological systems framework treats them as one system." },
+  { q: "Why not frame it as AI defending nature against big players?", o: ["It's illegal", "Big players won't use a tool that only opposes them", "It's too technical"], a: 1,
+    e: "I want win-win: firms avoid disputes, and absent stakeholders get a voice." },
+  { q: "What makes it novel?", o: ["Using LLM agents", "Simulating an economy", "Scoring costs to parties who aren't at the table"], a: 2,
+    e: "Existing negotiation benchmarks only score the parties at the table." },
+  { q: "Why is it an AI-safety question?", o: ["Proxies can be captured, or agents can collude around them", "AI might become sentient", "Data centres use energy"], a: 0,
+    e: "Collusion that harms outsiders is a key multi-agent risk (Cooperative AI Foundation, 2025)." }
+];
+const game = document.getElementById("game");
+let qi = 0, score = 0;
+function renderQ() {
+  if (qi === quiz.length) {
+    game.innerHTML = `<p class="q">You scored ${score} / ${quiz.length}.</p>
+      <p style="margin:0 0 16px">${score === quiz.length ? "You think like me." : "Explore the journey above, then try again."}</p>
+      <button class="btn primary" onclick="qi=0;score=0;renderQ()">Play again</button>`;
+    return;
+  }
+  const item = quiz[qi];
+  game.innerHTML = `<span class="score">Question ${qi + 1} / ${quiz.length} · Score ${score}</span>
+    <p class="q">${item.q}</p>
+    <div class="opts">${item.o.map((o, k) => `<button class="opt" data-k="${k}">${o}</button>`).join("")}</div>
+    <div class="feedback" id="fb"></div>`;
+  game.querySelectorAll(".opt").forEach(btn => btn.onclick = () => {
+    const k = +btn.dataset.k, ok = k === item.a;
+    if (ok) score++;
+    game.querySelectorAll(".opt").forEach((x, j) => { x.disabled = true; if (j === item.a) x.classList.add("right"); else if (j === k) x.classList.add("wrong"); });
+    document.getElementById("fb").innerHTML = `${ok ? "Right." : "Not quite."} ${item.e}
+      <div style="margin-top:12px"><button class="btn primary" id="nx">${qi === quiz.length - 1 ? "See score" : "Next question →"}</button></div>`;
+    document.getElementById("nx").onclick = () => { qi++; renderQ(); };
+  });
+}
+renderQ();
+</script>
 </body>
 </html>
