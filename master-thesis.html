@@ -145,7 +145,7 @@
 <body>
 <header class="hero">
   <div class="wrap">
-    <span class="tag">v2.1 · 2026-10-16</span>
+    <span class="tag">v2.2 · 2026-10-17</span>
     <h1>Proxies for Absent Stakeholders in Agentic Economies</h1>
     <div class="bar"></div>
     <div class="meta">Tuba Ali · Graduate School of Design &amp; Science, Chiba Institute of Technology</div>
@@ -179,6 +179,15 @@
       <tr><td>Agentic procurement</td><td>Buyer agent ↔ supplier agent</td><td>Sourcing region's ecosystem and labour community</td></tr>
       <tr><td>AI lending</td><td>Credit agent ↔ small local business</td><td>Neighbourhood ties, a local tradition</td></tr>
       <tr><td>Infrastructure siting</td><td>Developer agent ↔ municipality agent</td><td>Residents, local ecology (Inzai data-centre case)</td></tr>
+    </table>
+
+    <h3>Builds on my APS research</h3>
+    <p style="margin:0 0 12px">My <a href="https://tuba-sds.github.io/Final-APS/research-flow.html">APS research</a> measures what AI says matters: models match humans on facts but not on care (a 0.64 gap, in 7 of 8 models). My thesis tests whether that care gap shows up when AI acts, and whether a proxy can close it.</p>
+    <table class="table">
+      <tr><th>Stage</th><th>Work</th><th>Question</th></tr>
+      <tr><td>1. Judgment</td><td>APS (Paper 1 + Paper 2)</td><td>Do models decide who matters the way people do? <em>Finding: models agree with humans on facts but not on care.</em></td></tr>
+      <tr><td>2. Action</td><td>Thesis RQ1</td><td>Does the care gap show up as costs pushed onto absent stakeholders in agent deals?</td></tr>
+      <tr><td>3. Representation</td><td>Thesis RQ2–RQ3</td><td>Can a proxy agent close the gap, resist capture, and create joint gains?</td></tr>
     </table>
 
     <h3>My criteria, all met</h3>
@@ -332,9 +341,12 @@ const stops = [
   { t: "Proxy Council for data centres", s: "changed", sub: "Inzai, Tsukuba, Hino disputes",
     did: ["Proxies negotiate with a developer agent", "Ground truth: real resident disputes", "Framed as advocacy"],
     why: "Too 'goodwill' and too infrastructure-only. Reframed as win-win co-design, and infrastructure became one use case." },
-  { t: "Proxies for absent stakeholders", s: "now", sub: "Directions 1 + 2 combined",
+  { t: "Proxies for absent stakeholders", s: "kept", sub: "Directions 1 + 2 combined",
     did: ["Problem (2): agents push costs onto absent parties", "Solution (1): a proxy agent speaks for them", "Tested across 3 use cases in simulation"],
-    why: "Meets all my criteria: win-win, simulated, startup path, not a red ocean, AI safety, policy, future-facing." }
+    why: "Meets all my criteria: win-win, simulated, startup path, not a red ocean, AI safety, policy, future-facing." },
+  { t: "Builds on my APS research", s: "now", sub: "Judgment → Action → Representation",
+    did: ["APS: models match humans on facts, not on care (0.64 gap)", "Bridge: care gap → costs to absent stakeholders (RQ1)", "APS human norms → ground truth for proxy fidelity (RQ2)", "Secondary checks: factors collapse into one number; 'legal rule' route"],
+    why: "Care maps directly onto decisions, it is APS's headline result, and it explains why a proxy is needed." }
 ];
 const label = { kept: "kept", dropped: "dropped", changed: "changed", now: "now" };
 const map = document.getElementById("map"), card = document.getElementById("card");
