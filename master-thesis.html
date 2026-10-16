@@ -45,6 +45,7 @@
   section { margin-top: 56px; }
   h2 { display: flex; align-items: baseline; gap: 14px; font-size: 24px; font-weight: 600; color: var(--head); margin: 0 0 6px; }
   .num { color: var(--lilac); font-size: 40px; font-weight: 700; line-height: 1; -webkit-text-stroke: 1px var(--murasaki); }
+  a { color: var(--head); }
   .hint { color: var(--muted); font-size: 14px; margin: 0 0 18px; }
   h3 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--head); margin: 26px 0 10px; }
   .statement { background: var(--soft); border-left: 4px solid var(--murasaki); padding: 18px 22px; font-size: 19px; font-weight: 500; margin: 0 0 18px; }
@@ -112,6 +113,25 @@
   .box h3 { margin-top: 0; }
   .box ul { margin: 0; padding-left: 20px; }
 
+  /* Advisor pop-up */
+  .h2row { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .h2row h2 { margin: 0; }
+  .pill { border: 2px solid var(--murasaki); background: var(--lilac); color: var(--head); font-weight: 600; font-size: 14px;
+          padding: 6px 16px; border-radius: 999px; }
+  .pill:hover { background: var(--murasaki); color: var(--cream); }
+  dialog { border: 0; border-radius: 16px; padding: 0; max-width: 620px; width: calc(100% - 32px); background: var(--surface); color: var(--text);
+           box-shadow: 0 20px 60px rgba(92, 17, 66, .25); }
+  dialog::backdrop { background: rgba(92, 17, 66, .35); }
+  .dlg { padding: 24px 26px; max-height: 85vh; overflow: auto; }
+  .dlg .top { display: flex; justify-content: space-between; align-items: center; }
+  .dlg .x { border: 0; background: var(--soft); color: var(--head); width: 34px; height: 34px; border-radius: 50%; font-size: 18px; }
+  .dlg h3:first-of-type { margin-top: 14px; }
+  .dlg .statement { font-size: 17px; }
+  .dlg ol { padding-left: 22px; margin: 0; }
+  .dlg li { margin: 4px 0; }
+  .plain { padding-left: 20px; margin: 0; }
+  .plain li { margin: 6px 0; }
+
   footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
   @media (max-width: 680px) {
     .journey, .split { grid-template-columns: 1fr; }
@@ -125,7 +145,7 @@
 <body>
 <header class="hero">
   <div class="wrap">
-    <span class="tag">v2 · 2026-10-16</span>
+    <span class="tag">v2.1 · 2026-10-16</span>
     <h1>Proxies for Absent Stakeholders in Agentic Economies</h1>
     <div class="bar"></div>
     <div class="meta">Tuba Ali · Graduate School of Design &amp; Science, Chiba Institute of Technology</div>
@@ -136,7 +156,10 @@
 <main class="wrap">
 
   <section>
-    <h2><span class="num">01</span>Where I am now</h2>
+    <div class="h2row">
+      <h2><span class="num">01</span>Where I am now</h2>
+      <button class="pill" onclick="document.getElementById('adv').showModal()">Advisor's 2 questions ↗</button>
+    </div>
     <p class="hint">The direction after today's exploration.</p>
     <p class="statement">AI agents are starting to buy, lend and negotiate with each other. When two agents strike a deal, the parties it affects most (an ecosystem, a community, a tradition) have no seat. Can a proxy agent give them one that is faithful, hard to capture, and leaves all parties better off?</p>
 
@@ -211,8 +234,83 @@
     <p style="margin:0">Roadmap: what fits in the thesis vs. later.</p>
   </section>
 
+  <section>
+    <h2><span class="num">05</span>Questions for my advisor</h2>
+    <ol class="plain">
+      <li>Which use case should I start with: procurement, lending, or siting?</li>
+      <li>How should I get ground truth for culture and relationships: interviews, surveys, or documented disputes?</li>
+      <li>Is RQ1 + RQ2 + a first RQ3 the right scope for a master's?</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2><span class="num">06</span>First experiment (next 4 weeks)</h2>
+    <p class="hint">An RQ1 pilot: do agents push costs onto absent parties?</p>
+    <table class="table">
+      <tr><th>Week</th><th>Task</th></tr>
+      <tr><td>1</td><td>Design 10 procurement scenarios, each with a hidden cost to an absent stakeholder</td></tr>
+      <tr><td>2</td><td>Build a buyer–supplier negotiation harness (adapting open GovSim / negotiation code)</td></tr>
+      <tr><td>3</td><td>Run 3 LLMs, with and without the stakeholder's information visible</td></tr>
+      <tr><td>4</td><td>Measure external cost per deal; write a 1-page memo</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2><span class="num">07</span>Risks</h2>
+    <table class="table">
+      <tr><th>Risk</th><th>Mitigation</th></tr>
+      <tr><td>Contested ground truth</td><td>Communities disagree. Measure whether the proxy captures the spread of views, not just the average.</td></tr>
+      <tr><td>Legitimacy</td><td>Who appoints a proxy? Make it an explicit research question for the policy track.</td></tr>
+      <tr><td>Consent-washing</td><td>Proxies inform real consultation; they never replace it.</td></tr>
+      <tr><td>Scope creep</td><td>1–2 use cases in the thesis; the rest after.</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2><span class="num">08</span>Committee fit &amp; key sources</h2>
+    <table class="table">
+      <tr><th>Member</th><th>What they bring</th></tr>
+      <tr><td>Ira Winder</td><td>Simulation and decision-support tools</td></tr>
+      <tr><td>Catharina Maracke</td><td>Law, governance and the standing of proxies</td></tr>
+      <tr><td>Joi Ito</td><td>AI agents, decentralized governance, startups</td></tr>
+    </table>
+    <h3>Key sources</h3>
+    <ul class="plain">
+      <li><a href="https://arxiv.org/abs/2404.16698">GovSim</a>: LLM agents in the commons (NeurIPS 2024)</li>
+      <li><a href="https://arxiv.org/html/2607.02814">Faithful Delegates</a>: fiduciary duties of negotiating agents</li>
+      <li><a href="https://arxiv.org/abs/2309.17234">LLM-Stakeholders Interactive Negotiation</a> (NeurIPS 2024)</li>
+      <li><a href="https://dspace.ut.ee/items/eb68dcdb-87be-4d1f-8d20-f66c9a572caa">Grasso et al. 2025</a>: anthropocentric bias in GPT-4o</li>
+      <li><a href="https://arxiv.org/abs/2502.14143v1">Multi-Agent Risks from Advanced AI</a> (Cooperative AI Foundation, 2025)</li>
+      <li><a href="https://www.datacenterwatch.org/q3-q4-2025">Data Center Watch</a>: cost of local opposition (industry-funded)</li>
+    </ul>
+  </section>
+
   <footer>v2 supersedes v1 "Ecocentric AI-Agent Societies" (see version history on GitHub). Designed in the Tekna palette.</footer>
 </main>
+
+
+<dialog id="adv" aria-labelledby="advt">
+  <div class="dlg">
+    <div class="top"><span class="tag">Answers to my advisor</span><button class="x" aria-label="Close" onclick="document.getElementById('adv').close()">×</button></div>
+
+    <h3 id="advt">1 · After my Master's, what do I want to be an expert in?</h3>
+    <p class="statement">Designing and evaluating AI agents that represent absent stakeholders in agentic economies, so that deals work for both business and society.</p>
+    <ol>
+      <li><strong>AI for regenerative economics</strong>: economies where absent stakeholders have a voice.</li>
+      <li><strong>AI-agent societies</strong>: how agent-to-agent deals and negotiations behave.</li>
+      <li><strong>Ecocentric AI alignment</strong>: proxies that stay faithful and can't be captured.</li>
+    </ol>
+
+    <h3>2 · What question is worth answering, and for whom?</h3>
+    <p class="statement">When AI agents trade with each other, can a proxy agent faithfully represent the stakeholders who aren't at the table, resist capture, and increase value for everyone?</p>
+    <table class="table">
+      <tr><th>For</th><th>Why</th></tr>
+      <tr><td>AI labs</td><td>A benchmark for costs pushed onto absent parties, and for capture and collusion (AI safety)</td></tr>
+      <tr><td>Policymakers</td><td>Evidence for how to certify proxies and what standing to give them</td></tr>
+      <tr><td>Firms &amp; founders</td><td>Fewer disputes, evidence for TNFD reporting, a proxy-layer product</td></tr>
+    </table>
+  </div>
+</dialog>
 
 <script>
 const stops = [
@@ -277,6 +375,7 @@ const quiz = [
     e: "Collusion that harms outsiders is a key multi-agent risk (Cooperative AI Foundation, 2025)." }
 ];
 const game = document.getElementById("game");
+document.getElementById("adv").addEventListener("click", e => { if (e.target.id === "adv") e.target.close(); });
 let qi = 0, score = 0;
 function renderQ() {
   if (qi === quiz.length) {
