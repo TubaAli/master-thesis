@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Master Thesis Direction</title>
+<style>
+  :root {
+    --bg: #fbfaf7; --surface: #ffffff; --text: #1d1d1b; --muted: #5e5e58;
+    --border: #e4e1d8; --accent: #2f6b4f; --accent-soft: #e6f0ea; --warn: #8a5a12; --warn-soft: #fbf1df;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141513; --surface: #1c1e1b; --text: #ecebe6; --muted: #a3a29b;
+      --border: #2f322d; --accent: #7cc19c; --accent-soft: #1f2e25; --warn: #e3b46a; --warn-soft: #2e2618;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141513; --surface: #1c1e1b; --text: #ecebe6; --muted: #a3a29b;
+    --border: #2f322d; --accent: #7cc19c; --accent-soft: #1f2e25; --warn: #e3b46a; --warn-soft: #2e2618;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif;
+  }
+  main { max-width: 780px; margin: 0 auto; padding: 48px 16px 72px; }
+  header .meta { color: var(--muted); font-size: 14px; }
+  .tag { display: inline-block; background: var(--accent-soft); color: var(--accent);
+         font-size: 12px; font-weight: 600; padding: 2px 10px; border-radius: 999px; margin-left: 6px; }
+  h1 { font-size: 30px; line-height: 1.2; margin: 8px 0 4px; }
+  h2 { font-size: 20px; margin: 44px 0 12px; padding-top: 20px; border-top: 1px solid var(--border); }
+  h3 { font-size: 15px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 24px 0 8px; }
+  .statement { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent);
+               border-radius: 8px; padding: 16px 20px; font-size: 18px; font-weight: 500; }
+  ol, ul { padding-left: 22px; }
+  li { margin: 6px 0; }
+  table { width: 100%; border-collapse: collapse; background: var(--surface);
+          border: 1px solid var(--border); border-radius: 8px; overflow: hidden; font-size: 15px; }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { background: var(--accent-soft); color: var(--accent); font-size: 13px; }
+  tr:last-child td { border-bottom: 0; }
+  .gaps { background: var(--warn-soft); border-radius: 8px; padding: 12px 20px 12px 40px; }
+  .gaps li::marker { color: var(--warn); font-weight: 700; }
+  footer { margin-top: 48px; color: var(--muted); font-size: 13px; }
+  @media (max-width: 560px) { h1 { font-size: 24px; } .statement { font-size: 16px; } }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="meta">Tuba Ali · Graduate School of Design &amp; Science, Chiba Institute of Technology <span class="tag">v1 · 2026-10-16</span></div>
+    <h1>Ecocentric AI-Agent Societies</h1>
+    <div class="meta">Advisor: Ira Winder · Committee: Catharina Maracke, Joi Ito</div>
+  </header>
+
+  <h2>1. What do I want to be an expert in?</h2>
+  <p class="statement">Designing and evaluating AI-agent societies whose values account for non-human life, applied to regenerative economies.</p>
+  <ol>
+    <li><strong>AI for regenerative economics</strong>: economies where AI agents treat nature as a stakeholder.</li>
+    <li><strong>AI-agent societies</strong>: simulating how multi-agent systems evolve norms, governance and values.</li>
+    <li><strong>Ecocentric AI alignment</strong>: methods (value constitutions first) that make models weigh ecological interests.</li>
+  </ol>
+
+  <h2>2. What question is worth answering, and for whom?</h2>
+  <p class="statement">In a simulated decentralized society where nature is an economic stakeholder, how do LLM agents with ecocentric vs. anthropocentric constitutions compare, with each other and with humans, in human welfare, value drift and governance outcomes?</p>
+
+  <h3>Sub-questions</h3>
+  <table>
+    <tr><th>RQ</th><th>Type</th><th>Question</th></tr>
+    <tr><td>RQ1</td><td>Measure</td><td>How do current LLMs trade off human and ecological interests compared with humans? (scenario game, 100–300 participants)</td></tr>
+    <tr><td>RQ2</td><td>Simulate</td><td>Over many generations, do ecocentric values persist or drift, and which governance rules does each society adopt?</td></tr>
+    <tr><td>RQ3</td><td>Trade-off</td><td>Does an ecocentric constitution cost human welfare, or can humans and nature do better together?</td></tr>
+  </table>
+
+  <h3>Who it is for</h3>
+  <table>
+    <tr><th>Audience</th><th>Why it matters to them</th></tr>
+    <tr><td>AI labs</td><td>Evidence for building ecocentric values into model design</td></tr>
+    <tr><td>Policymakers</td><td>Tested governance rules for AI-mediated economies</td></tr>
+    <tr><td>Founders / investors</td><td>A validated basis for regenerative-economy ventures</td></tr>
+  </table>
+
+  <h2>3. Design choices</h2>
+  <table>
+    <tr><th>Dimension</th><th>Choice</th></tr>
+    <tr><td>Method</td><td>Mixed: measure first, then simulate long-term consequences</td></tr>
+    <tr><td>Setting</td><td>Decentralized virtual society; nature holds an economic stake</td></tr>
+    <tr><td>Lever</td><td>Value constitutions (core); fine-tuning (stretch goal)</td></tr>
+    <tr><td>Metrics</td><td>Human welfare, value drift, governance outcomes</td></tr>
+    <tr><td>Human baseline</td><td>Online scenario game, 100–300 participants</td></tr>
+    <tr><td>Contribution</td><td>Paper + open simulation tool</td></tr>
+  </table>
+
+  <h2>4. Open gaps</h2>
+  <ol class="gaps">
+    <li><strong>Add ecosystem health as a metric.</strong> An ecocentric thesis needs it, or RQ3 can't be answered.</li>
+    <li><strong>Human study:</strong> needs a budget and ethics approval. Start both early.</li>
+    <li><strong>Define "ecocentric"</strong> from the literature (e.g., deep ecology, Rights of Nature).</li>
+    <li><strong>Novelty:</strong> position against prior LLM-agent commons simulations (e.g., GovSim).</li>
+  </ol>
+
+  <footer>Version 1. Supersedes the IDP topic "transaction and independent economic zones" (May 2026).</footer>
+</main>
+</body>
+</html>
