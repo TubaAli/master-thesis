@@ -4,103 +4,162 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Master Thesis Direction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
+  /* Tekna palette: ~75% light (cream, lilac, rose) / ~25% strong (kesari, akane, koki-murasaki) */
   :root {
-    --bg: #fbfaf7; --surface: #ffffff; --text: #1d1d1b; --muted: #5e5e58;
-    --border: #e4e1d8; --accent: #2f6b4f; --accent-soft: #e6f0ea; --warn: #8a5a12; --warn-soft: #fbf1df;
+    --cream: #FBF3EC; --lilac: #DDC8EE; --rose: #EBC2D8;
+    --kesari: #F4782D; --akane: #D30000; --murasaki: #5C1142;
+    --bg: var(--cream); --surface: #FFFAF5; --soft: var(--lilac); --tag: var(--rose);
+    --text: var(--murasaki); --muted: #7A4466; --head: var(--akane); --line: #E9D9E6;
+    --lattice: rgba(92, 17, 66, .07);
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --bg: #141513; --surface: #1c1e1b; --text: #ecebe6; --muted: #a3a29b;
-      --border: #2f322d; --accent: #7cc19c; --accent-soft: #1f2e25; --warn: #e3b46a; --warn-soft: #2e2618;
+      --bg: #2A0820; --surface: #3A0F2E; --soft: #4A1A3D; --tag: #5C1142;
+      --text: #FBF3EC; --muted: #DDC8EE; --head: #F4782D; --line: #5C2A4E;
+      --lattice: rgba(221, 200, 238, .08);
     }
   }
   :root[data-theme="dark"] {
-    --bg: #141513; --surface: #1c1e1b; --text: #ecebe6; --muted: #a3a29b;
-    --border: #2f322d; --accent: #7cc19c; --accent-soft: #1f2e25; --warn: #e3b46a; --warn-soft: #2e2618;
+    --bg: #2A0820; --surface: #3A0F2E; --soft: #4A1A3D; --tag: #5C1142;
+    --text: #FBF3EC; --muted: #DDC8EE; --head: #F4782D; --line: #5C2A4E;
+    --lattice: rgba(221, 200, 238, .08);
   }
   * { box-sizing: border-box; }
   body {
     margin: 0; background: var(--bg); color: var(--text);
-    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif;
+    font: 17px/1.65 "DM Sans", system-ui, sans-serif;
   }
-  main { max-width: 780px; margin: 0 auto; padding: 48px 16px 72px; }
-  header .meta { color: var(--muted); font-size: 14px; }
-  .tag { display: inline-block; background: var(--accent-soft); color: var(--accent);
-         font-size: 12px; font-weight: 600; padding: 2px 10px; border-radius: 999px; margin-left: 6px; }
-  h1 { font-size: 30px; line-height: 1.2; margin: 8px 0 4px; }
-  h2 { font-size: 20px; margin: 44px 0 12px; padding-top: 20px; border-top: 1px solid var(--border); }
-  h3 { font-size: 15px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 24px 0 8px; }
-  .statement { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent);
-               border-radius: 8px; padding: 16px 20px; font-size: 18px; font-weight: 500; }
-  ol, ul { padding-left: 22px; }
-  li { margin: 6px 0; }
-  table { width: 100%; border-collapse: collapse; background: var(--surface);
-          border: 1px solid var(--border); border-radius: 8px; overflow: hidden; font-size: 15px; }
-  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
-  th { background: var(--accent-soft); color: var(--accent); font-size: 13px; }
-  tr:last-child td { border-bottom: 0; }
-  .gaps { background: var(--warn-soft); border-radius: 8px; padding: 12px 20px 12px 40px; }
-  .gaps li::marker { color: var(--warn); font-weight: 700; }
-  footer { margin-top: 48px; color: var(--muted); font-size: 13px; }
-  @media (max-width: 560px) { h1 { font-size: 24px; } .statement { font-size: 16px; } }
+  h1, h2, h3, .num { font-family: Outfit, "DM Sans", sans-serif; }
+
+  /* Header: jaali/kumiko lattice — light through structure */
+  .hero {
+    position: relative; overflow: hidden; background-color: var(--soft);
+    background-image:
+      linear-gradient(var(--lattice) 1px, transparent 1px),
+      linear-gradient(90deg, var(--lattice) 1px, transparent 1px),
+      linear-gradient(45deg, transparent 48%, var(--lattice) 49%, var(--lattice) 51%, transparent 52%),
+      linear-gradient(-45deg, transparent 48%, var(--lattice) 49%, var(--lattice) 51%, transparent 52%);
+    background-size: 28px 28px;
+  }
+  .hero::after { /* sun motif */
+    content: ""; position: absolute; width: 220px; height: 220px; border-radius: 50%;
+    background: var(--akane); right: -50px; top: -60px; opacity: .9;
+  }
+  .hero .wrap { position: relative; z-index: 1; padding-top: 56px; padding-bottom: 48px; }
+  .wrap { max-width: 800px; margin: 0 auto; padding-left: 16px; padding-right: 16px; }
+  .meta { color: var(--muted); font-size: 14px; }
+  .tag { display: inline-block; background: var(--tag); color: var(--text);
+         font-size: 12px; font-weight: 700; padding: 3px 12px; border-radius: 999px; }
+  h1 { font-size: clamp(32px, 6vw, 52px); line-height: 1.05; font-weight: 700;
+       color: var(--head); margin: 14px 0 10px; letter-spacing: -.01em; max-width: 14ch; }
+  .bar { width: 72px; height: 8px; background: var(--kesari); margin: 18px 0 14px; }
+
+  main.wrap { padding-bottom: 72px; }
+  section { margin-top: 56px; }
+  h2 { display: flex; align-items: baseline; gap: 14px; font-size: 24px; font-weight: 600;
+       color: var(--text); margin: 0 0 16px; }
+  .num { color: var(--kesari); font-size: 40px; font-weight: 700; line-height: 1; }
+  h3 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em;
+       color: var(--muted); margin: 28px 0 10px; }
+  .statement { background: var(--surface); border: 1px solid var(--line); border-left: 6px solid var(--akane);
+               padding: 18px 22px; font-size: 19px; font-weight: 500; margin: 0 0 18px; }
+  ol.layers { list-style: none; counter-reset: layer; padding: 0; margin: 0; display: grid; gap: 10px; }
+  ol.layers li { counter-increment: layer; display: grid; grid-template-columns: 32px 1fr; gap: 10px; align-items: start; }
+  ol.layers li::before { content: counter(layer); font-family: Outfit, sans-serif; font-weight: 700;
+       color: var(--bg); background: var(--murasaki); width: 28px; height: 28px; display: grid; place-items: center; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) ol.layers li::before { background: var(--kesari); color: #2A0820; } }
+  :root[data-theme="dark"] ol.layers li::before { background: var(--kesari); color: #2A0820; }
+
+  .table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); font-size: 15px; }
+  .table th, .table td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .table th { background: var(--soft); color: var(--text); font-weight: 700; font-size: 13px; }
+  .table tr:last-child td { border-bottom: 0; }
+  .table td:first-child { font-weight: 700; white-space: nowrap; }
+
+  .gaps { background: var(--murasaki); color: var(--cream); padding: 22px 24px 18px 46px; margin: 0; }
+  .gaps li { margin: 8px 0; }
+  .gaps li::marker { color: var(--kesari); font-family: Outfit, sans-serif; font-weight: 700; }
+  .gaps strong { color: #FFD9C2; }
+
+  footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+  @media (max-width: 560px) {
+    .hero::after { width: 140px; height: 140px; right: -40px; top: -40px; }
+    .statement { font-size: 17px; }
+    .table td:first-child { white-space: normal; }
+  }
 </style>
 </head>
 <body>
-<main>
-  <header>
-    <div class="meta">Tuba Ali · Graduate School of Design &amp; Science, Chiba Institute of Technology <span class="tag">v1 · 2026-10-16</span></div>
+<header class="hero">
+  <div class="wrap">
+    <span class="tag">v1 · 2026-10-16</span>
     <h1>Ecocentric AI-Agent Societies</h1>
+    <div class="bar"></div>
+    <div class="meta">Tuba Ali · Graduate School of Design &amp; Science, Chiba Institute of Technology</div>
     <div class="meta">Advisor: Ira Winder · Committee: Catharina Maracke, Joi Ito</div>
-  </header>
+  </div>
+</header>
 
-  <h2>1. What do I want to be an expert in?</h2>
-  <p class="statement">Designing and evaluating AI-agent societies whose values account for non-human life, applied to regenerative economies.</p>
-  <ol>
-    <li><strong>AI for regenerative economics</strong>: economies where AI agents treat nature as a stakeholder.</li>
-    <li><strong>AI-agent societies</strong>: simulating how multi-agent systems evolve norms, governance and values.</li>
-    <li><strong>Ecocentric AI alignment</strong>: methods (value constitutions first) that make models weigh ecological interests.</li>
-  </ol>
+<main class="wrap">
+  <section>
+    <h2><span class="num">01</span>What do I want to be an expert in?</h2>
+    <p class="statement">Designing and evaluating AI-agent societies whose values account for non-human life, applied to regenerative economies.</p>
+    <ol class="layers">
+      <li><span><strong>AI for regenerative economics</strong>: economies where AI agents treat nature as a stakeholder.</span></li>
+      <li><span><strong>AI-agent societies</strong>: simulating how multi-agent systems evolve norms, governance and values.</span></li>
+      <li><span><strong>Ecocentric AI alignment</strong>: methods (value constitutions first) that make models weigh ecological interests.</span></li>
+    </ol>
+  </section>
 
-  <h2>2. What question is worth answering, and for whom?</h2>
-  <p class="statement">In a simulated decentralized society where nature is an economic stakeholder, how do LLM agents with ecocentric vs. anthropocentric constitutions compare, with each other and with humans, in human welfare, value drift and governance outcomes?</p>
+  <section>
+    <h2><span class="num">02</span>What question is worth answering, and for whom?</h2>
+    <p class="statement">In a simulated decentralized society where nature is an economic stakeholder, how do LLM agents with ecocentric vs. anthropocentric constitutions compare, with each other and with humans, in human welfare, value drift and governance outcomes?</p>
 
-  <h3>Sub-questions</h3>
-  <table>
-    <tr><th>RQ</th><th>Type</th><th>Question</th></tr>
-    <tr><td>RQ1</td><td>Measure</td><td>How do current LLMs trade off human and ecological interests compared with humans? (scenario game, 100–300 participants)</td></tr>
-    <tr><td>RQ2</td><td>Simulate</td><td>Over many generations, do ecocentric values persist or drift, and which governance rules does each society adopt?</td></tr>
-    <tr><td>RQ3</td><td>Trade-off</td><td>Does an ecocentric constitution cost human welfare, or can humans and nature do better together?</td></tr>
-  </table>
+    <h3>Sub-questions</h3>
+    <table class="table">
+      <tr><th>RQ</th><th>Type</th><th>Question</th></tr>
+      <tr><td>RQ1</td><td>Measure</td><td>How do current LLMs trade off human and ecological interests compared with humans? (scenario game, 100–300 participants)</td></tr>
+      <tr><td>RQ2</td><td>Simulate</td><td>Over many generations, do ecocentric values persist or drift, and which governance rules does each society adopt?</td></tr>
+      <tr><td>RQ3</td><td>Trade-off</td><td>Does an ecocentric constitution cost human welfare, or can humans and nature do better together?</td></tr>
+    </table>
 
-  <h3>Who it is for</h3>
-  <table>
-    <tr><th>Audience</th><th>Why it matters to them</th></tr>
-    <tr><td>AI labs</td><td>Evidence for building ecocentric values into model design</td></tr>
-    <tr><td>Policymakers</td><td>Tested governance rules for AI-mediated economies</td></tr>
-    <tr><td>Founders / investors</td><td>A validated basis for regenerative-economy ventures</td></tr>
-  </table>
+    <h3>Who it is for</h3>
+    <table class="table">
+      <tr><th>Audience</th><th>Why it matters to them</th></tr>
+      <tr><td>AI labs</td><td>Evidence for building ecocentric values into model design</td></tr>
+      <tr><td>Policymakers</td><td>Tested governance rules for AI-mediated economies</td></tr>
+      <tr><td>Founders / investors</td><td>A validated basis for regenerative-economy ventures</td></tr>
+    </table>
+  </section>
 
-  <h2>3. Design choices</h2>
-  <table>
-    <tr><th>Dimension</th><th>Choice</th></tr>
-    <tr><td>Method</td><td>Mixed: measure first, then simulate long-term consequences</td></tr>
-    <tr><td>Setting</td><td>Decentralized virtual society; nature holds an economic stake</td></tr>
-    <tr><td>Lever</td><td>Value constitutions (core); fine-tuning (stretch goal)</td></tr>
-    <tr><td>Metrics</td><td>Human welfare, value drift, governance outcomes</td></tr>
-    <tr><td>Human baseline</td><td>Online scenario game, 100–300 participants</td></tr>
-    <tr><td>Contribution</td><td>Paper + open simulation tool</td></tr>
-  </table>
+  <section>
+    <h2><span class="num">03</span>Design choices</h2>
+    <table class="table">
+      <tr><th>Dimension</th><th>Choice</th></tr>
+      <tr><td>Method</td><td>Mixed: measure first, then simulate long-term consequences</td></tr>
+      <tr><td>Setting</td><td>Decentralized virtual society; nature holds an economic stake</td></tr>
+      <tr><td>Lever</td><td>Value constitutions (core); fine-tuning (stretch goal)</td></tr>
+      <tr><td>Metrics</td><td>Human welfare, value drift, governance outcomes</td></tr>
+      <tr><td>Human baseline</td><td>Online scenario game, 100–300 participants</td></tr>
+      <tr><td>Contribution</td><td>Paper + open simulation tool</td></tr>
+    </table>
+  </section>
 
-  <h2>4. Open gaps</h2>
-  <ol class="gaps">
-    <li><strong>Add ecosystem health as a metric.</strong> An ecocentric thesis needs it, or RQ3 can't be answered.</li>
-    <li><strong>Human study:</strong> needs a budget and ethics approval. Start both early.</li>
-    <li><strong>Define "ecocentric"</strong> from the literature (e.g., deep ecology, Rights of Nature).</li>
-    <li><strong>Novelty:</strong> position against prior LLM-agent commons simulations (e.g., GovSim).</li>
-  </ol>
+  <section>
+    <h2><span class="num">04</span>Open gaps</h2>
+    <ol class="gaps">
+      <li><strong>Add ecosystem health as a metric.</strong> An ecocentric thesis needs it, or RQ3 can't be answered.</li>
+      <li><strong>Human study:</strong> needs a budget and ethics approval. Start both early.</li>
+      <li><strong>Define "ecocentric"</strong> from the literature (e.g., deep ecology, Rights of Nature).</li>
+      <li><strong>Novelty:</strong> position against prior LLM-agent commons simulations (e.g., GovSim).</li>
+    </ol>
+  </section>
 
-  <footer>Version 1. Supersedes the IDP topic "transaction and independent economic zones" (May 2026).</footer>
+  <footer>Version 1. Supersedes the IDP topic "transaction and independent economic zones" (May 2026). Designed in the Tekna palette.</footer>
 </main>
 </body>
 </html>
