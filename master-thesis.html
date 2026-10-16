@@ -8,25 +8,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-  /* Tekna palette: ~75% light (cream, lilac, rose) / ~25% strong (kesari, akane, koki-murasaki) */
+  /* Tekna subset for this thesis: Petal Cream + Fuji Lilac (light, dominant), Koki-murasaki (headings & design only) */
   :root {
-    --cream: #FBF3EC; --lilac: #DDC8EE; --rose: #EBC2D8;
-    --kesari: #F4782D; --akane: #D30000; --murasaki: #5C1142;
-    --bg: var(--cream); --surface: #FFFAF5; --soft: var(--lilac); --tag: var(--rose);
-    --text: var(--murasaki); --muted: #7A4466; --head: var(--akane); --line: #E9D9E6;
-    --lattice: rgba(92, 17, 66, .07);
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #2A0820; --surface: #3A0F2E; --soft: #4A1A3D; --tag: #5C1142;
-      --text: #FBF3EC; --muted: #DDC8EE; --head: #F4782D; --line: #5C2A4E;
-      --lattice: rgba(221, 200, 238, .08);
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg: #2A0820; --surface: #3A0F2E; --soft: #4A1A3D; --tag: #5C1142;
-    --text: #FBF3EC; --muted: #DDC8EE; --head: #F4782D; --line: #5C2A4E;
-    --lattice: rgba(221, 200, 238, .08);
+    --cream: #FBF3EC; --lilac: #DDC8EE; --lilac-tint: #F1E7F6; --murasaki: #5C1142;
+    --bg: var(--cream); --surface: #FFFBF7; --soft: var(--lilac-tint);
+    --text: #5F4C5B; --muted: #8A7586; --head: var(--murasaki); --line: #EADFEC;
+    --lattice: rgba(92, 17, 66, .06);
   }
   * { box-sizing: border-box; }
   body {
@@ -34,6 +21,7 @@
     font: 17px/1.65 "DM Sans", system-ui, sans-serif;
   }
   h1, h2, h3, .num { font-family: Outfit, "DM Sans", sans-serif; }
+  strong { color: var(--head); }
 
   /* Header: jaali/kumiko lattice — light through structure */
   .hero {
@@ -45,45 +33,42 @@
       linear-gradient(-45deg, transparent 48%, var(--lattice) 49%, var(--lattice) 51%, transparent 52%);
     background-size: 28px 28px;
   }
-  .hero::after { /* sun motif */
+  .hero::after { /* sun motif, as a ring */
     content: ""; position: absolute; width: 220px; height: 220px; border-radius: 50%;
-    background: var(--akane); right: -50px; top: -60px; opacity: .9;
+    border: 18px solid var(--lilac); right: -50px; top: -60px;
   }
   .hero .wrap { position: relative; z-index: 1; padding-top: 56px; padding-bottom: 48px; }
   .wrap { max-width: 800px; margin: 0 auto; padding-left: 16px; padding-right: 16px; }
   .meta { color: var(--muted); font-size: 14px; }
-  .tag { display: inline-block; background: var(--tag); color: var(--text);
+  .tag { display: inline-block; background: var(--lilac); color: var(--head);
          font-size: 12px; font-weight: 700; padding: 3px 12px; border-radius: 999px; }
   h1 { font-size: clamp(32px, 6vw, 52px); line-height: 1.05; font-weight: 700;
        color: var(--head); margin: 14px 0 10px; letter-spacing: -.01em; max-width: 14ch; }
-  .bar { width: 72px; height: 8px; background: var(--kesari); margin: 18px 0 14px; }
+  .bar { width: 72px; height: 6px; background: var(--murasaki); margin: 18px 0 14px; }
 
   main.wrap { padding-bottom: 72px; }
   section { margin-top: 56px; }
   h2 { display: flex; align-items: baseline; gap: 14px; font-size: 24px; font-weight: 600;
-       color: var(--text); margin: 0 0 16px; }
-  .num { color: var(--kesari); font-size: 40px; font-weight: 700; line-height: 1; }
+       color: var(--head); margin: 0 0 16px; }
+  .num { color: var(--lilac); font-size: 40px; font-weight: 700; line-height: 1; -webkit-text-stroke: 1px var(--murasaki); }
   h3 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em;
-       color: var(--muted); margin: 28px 0 10px; }
-  .statement { background: var(--surface); border: 1px solid var(--line); border-left: 6px solid var(--akane);
+       color: var(--head); margin: 28px 0 10px; }
+  .statement { background: var(--soft); border-left: 4px solid var(--murasaki);
                padding: 18px 22px; font-size: 19px; font-weight: 500; margin: 0 0 18px; }
   ol.layers { list-style: none; counter-reset: layer; padding: 0; margin: 0; display: grid; gap: 10px; }
   ol.layers li { counter-increment: layer; display: grid; grid-template-columns: 32px 1fr; gap: 10px; align-items: start; }
   ol.layers li::before { content: counter(layer); font-family: Outfit, sans-serif; font-weight: 700;
-       color: var(--bg); background: var(--murasaki); width: 28px; height: 28px; display: grid; place-items: center; }
-  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) ol.layers li::before { background: var(--kesari); color: #2A0820; } }
-  :root[data-theme="dark"] ol.layers li::before { background: var(--kesari); color: #2A0820; }
+       color: var(--head); background: var(--lilac); width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; }
 
   .table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); font-size: 15px; }
   .table th, .table td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
-  .table th { background: var(--soft); color: var(--text); font-weight: 700; font-size: 13px; }
+  .table th { background: var(--soft); color: var(--head); font-weight: 700; font-size: 13px; }
   .table tr:last-child td { border-bottom: 0; }
-  .table td:first-child { font-weight: 700; white-space: nowrap; }
+  .table td:first-child { font-weight: 700; white-space: nowrap; color: var(--head); }
 
-  .gaps { background: var(--murasaki); color: var(--cream); padding: 22px 24px 18px 46px; margin: 0; }
+  .gaps { background: var(--soft); border: 1px solid var(--line); padding: 20px 24px 16px 46px; margin: 0; }
   .gaps li { margin: 8px 0; }
-  .gaps li::marker { color: var(--kesari); font-family: Outfit, sans-serif; font-weight: 700; }
-  .gaps strong { color: #FFD9C2; }
+  .gaps li::marker { color: var(--head); font-family: Outfit, sans-serif; font-weight: 700; }
 
   footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
   @media (max-width: 560px) {
@@ -159,7 +144,7 @@
     </ol>
   </section>
 
-  <footer>Version 1. Supersedes the IDP topic "transaction and independent economic zones" (May 2026). Designed in the Tekna palette.</footer>
+  <footer>Version 1. Supersedes the IDP topic "transaction and independent economic zones" (May 2026). Designed in the Tekna palette (Petal Cream, Fuji Lilac, Koki-murasaki).</footer>
 </main>
 </body>
 </html>
