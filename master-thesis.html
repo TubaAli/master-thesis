@@ -86,20 +86,28 @@
   .arrow { color: var(--muted); font-size: 12px; }
   .small { font-size: 13px; color: var(--muted); }
 
-  /* Flip cards (traits, risks) */
-  .flips { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-  .flips.five { grid-template-columns: repeat(5, 1fr); }
-  .flip { perspective: 900px; height: 150px; border: 0; padding: 0; background: none; font: inherit; color: inherit; text-align: left; }
-  .flip .inner { position: relative; width: 100%; height: 100%; transition: transform .5s; transform-style: preserve-3d; }
-  .flip:hover .inner, .flip:focus-visible .inner, .flip.on .inner { transform: rotateY(180deg); }
-  .face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 14px; padding: 14px; display: flex; flex-direction: column; }
-  .front { background: var(--surface); border: 1px solid var(--line); align-items: flex-start; justify-content: space-between; }
-  .front .emo { font-size: 30px; line-height: 1; }
-  .front b { font-family: Outfit, sans-serif; color: var(--head); font-size: 15px; line-height: 1.25; }
-  .back { background: var(--soft); border: 1px solid var(--lilac); transform: rotateY(180deg); font-size: 13.5px; justify-content: center; }
+  /* Trait tuner cards */
+  .traits { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+  .trait { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; }
+  .trait .hd { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+  .trait .emo { font-size: 24px; line-height: 1; }
+  .trait b { font-family: Outfit, sans-serif; color: var(--head); font-size: 15px; line-height: 1.2; flex: 1; }
+  .trait input[type=range] { width: 100%; accent-color: var(--murasaki); margin: 0; cursor: pointer; }
+  .poles { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .trait .out { margin-top: 8px; background: var(--soft); border-radius: 8px; padding: 6px 10px; font-size: 13px; min-height: 44px; }
+  .trait .out strong { display: block; font-size: 12px; }
   .badge { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; padding: 1px 8px; border-radius: 999px;
            background: var(--murasaki); color: var(--cream); }
   .badge.st { background: transparent; color: var(--head); border: 1px dashed var(--murasaki); }
+
+  /* Risk cards */
+  .risks { display: grid; grid-template-columns: repeat(auto-fit, minmax(125px, 1fr)); gap: 12px; }
+  .risk { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; }
+  .risk .top { padding: 12px 14px 10px; }
+  .risk .emo { font-size: 24px; line-height: 1; display: block; margin-bottom: 6px; }
+  .risk b { font-family: Outfit, sans-serif; color: var(--head); font-size: 14.5px; line-height: 1.2; }
+  .risk .fix { background: var(--soft); border-top: 1px solid var(--lilac); padding: 9px 14px; font-size: 13px; flex: 1; }
+  .risk .fix::before { content: "🛡️ "; }
   .note { border: 1px dashed var(--murasaki); border-radius: 10px; padding: 9px 13px; font-size: 14px; margin-top: 12px; }
 
   /* Slide-in on scroll */
@@ -190,7 +198,6 @@
     .src { margin: -20px 0 24px; }
   }
   @media (max-width: 680px) {
-    .flips, .flips.five { grid-template-columns: 1fr 1fr; }
     .flow { grid-template-columns: 1fr; }
     .farrow { transform: rotate(90deg); justify-self: center; }
     .split, .cases { grid-template-columns: 1fr; }
@@ -202,7 +209,6 @@
   @media (prefers-reduced-motion: reduce) {
     .reveal { opacity: 1; transform: none; transition: none; }
     .qm { animation: none; }
-    .flip .inner { transition: none; }
   }
 </style>
 </head>
@@ -264,8 +270,8 @@
 
     <section>
       <h2><span class="num">02</span>Agent design</h2>
-      <p class="hint">Tunable traits. Hover or tap a card to flip it.</p>
-      <div class="flips" id="traits"></div>
+      <p class="hint">Tunable traits. Slide to see how an agent changes.</p>
+      <div class="traits" id="traits"></div>
       <p class="note"><strong>Open question:</strong> rational or irrational proxies? Rationality stays tunable.</p>
     </section>
 
@@ -294,8 +300,7 @@
 
     <section>
       <h2><span class="num">05</span>Risks</h2>
-      <p class="hint">Flip for the mitigation.</p>
-      <div class="flips five" id="risks"></div>
+      <div class="risks" id="risks"></div>
     </section>
   </main>
 
@@ -431,30 +436,35 @@ $("tl").querySelectorAll("button").forEach(b => {
   });
 });
 
-/* ---------- Flip cards ---------- */
-function flips(el, items) {
-  $(el).innerHTML = items.map(it => `
-    <button class="flip reveal" aria-label="${it.n}: ${it.b}">
-      <span class="inner">
-        <span class="face front"><span class="emo">${it.e}</span><b>${it.n}</b>${it.tag ? `<span class="badge ${it.tag === "Stretch" ? "st" : ""}">${it.tag}</span>` : ""}</span>
-        <span class="face back">${it.b}</span>
-      </span>
-    </button>`).join("");
-  $(el).querySelectorAll(".flip").forEach(f => f.addEventListener("click", () => f.classList.toggle("on")));
-}
-flips("traits", [
-  { e: "🧠", n: "Rationality level", tag: "Core", b: "Fully rational ↔ boundedly rational (noise, satisficing)." },
-  { e: "🔄", n: "Openness to evidence", tag: "Core", b: "Prior strength in Bayesian updating. Closed agents ignore new information." },
-  { e: "📡", n: "Information access", tag: "Core", b: "Full, partial, or wrong information (asymmetry)." },
-  { e: "💗", n: "Biases & emotion", tag: "Stretch", b: "Loss aversion, status-quo bias, distrust, place attachment." }
-]);
-flips("risks", [
-  { e: "⚖️", n: "Contested perception", b: "Measure whether the proxy captures the spread of views, not just the average." },
-  { e: "🧍", n: "Straw-man baseline", b: "Measure today's representation (ladder step b); don't assume zero." },
-  { e: "🏛️", n: "Legitimacy", b: "Who appoints a proxy? A research question for the policy track." },
-  { e: "🧼", n: "Consent-washing", b: "Proxies inform real consultation; they never replace it." },
-  { e: "🎯", n: "Scope creep", b: "Medium core in the thesis; the rest after." }
-]);
+/* ---------- Trait tuners ---------- */
+const traits = [
+  { e: "🧠", n: "Rationality", tag: "Core", poles: ["Irrational", "Rational"],
+    lv: [["Irrational", "Noisy, emotion-led choices"], ["Bounded", "Satisfices; some noise"], ["Fully rational", "Always picks the best expected payoff"]] },
+  { e: "🔄", n: "Openness to evidence", tag: "Core", poles: ["Closed", "Open"],
+    lv: [["Closed", "Strong prior; ignores new evidence"], ["Cautious", "Updates slowly"], ["Open", "Updates quickly (Bayesian)"]] },
+  { e: "📡", n: "Information access", tag: "Core", poles: ["Wrong", "Full"],
+    lv: [["Wrong info", "Acts on false beliefs"], ["Partial info", "Information asymmetry"], ["Full info", "Sees all the facts"]] },
+  { e: "💗", n: "Biases & emotion", tag: "Stretch", poles: ["None", "Strong"],
+    lv: [["None", "Neutral reasoning"], ["Some", "Loss aversion, status-quo bias"], ["Strong", "Distrust, place attachment"]] }
+];
+$("traits").innerHTML = traits.map((t, i) => `
+  <div class="trait reveal">
+    <div class="hd"><span class="emo" aria-hidden="true">${t.e}</span><b>${t.n}</b><span class="badge ${t.tag === "Stretch" ? "st" : ""}">${t.tag}</span></div>
+    <input type="range" min="0" max="2" step="1" value="1" data-i="${i}" aria-label="${t.n}">
+    <div class="poles"><span>${t.poles[0]}</span><span>${t.poles[1]}</span></div>
+    <div class="out" id="tout${i}"></div>
+  </div>`).join("");
+function tune(i, v) { const [h, d] = traits[i].lv[v]; $("tout" + i).innerHTML = `<strong>${h}</strong>${d}`; }
+$("traits").querySelectorAll("input").forEach(r => { tune(+r.dataset.i, +r.value); r.addEventListener("input", () => tune(+r.dataset.i, +r.value)); });
+
+/* ---------- Risk cards ---------- */
+$("risks").innerHTML = [
+  ["⚖️", "Contested perception", "Capture the spread of views, not just the average"],
+  ["🧍", "Straw-man baseline", "Measure today's representation; don't assume zero"],
+  ["🏛️", "Legitimacy", "Who appoints a proxy? A policy-track question"],
+  ["🧼", "Consent-washing", "Proxies inform consultation, never replace it"],
+  ["🎯", "Scope creep", "Medium core now; the rest after"]
+].map(([e, n, f]) => `<div class="risk reveal"><div class="top"><span class="emo" aria-hidden="true">${e}</span><b>${n}</b></div><div class="fix">${f}</div></div>`).join("");
 
 /* Slide-in when scrolled into view */
 const io = new IntersectionObserver(es => es.forEach(e => {
@@ -503,6 +513,8 @@ function openVote() {
     .then(r => r.ok ? r.json() : null)
     .then(d => { if (d) $("v" + c.n).textContent = `👍 ${d.reactions["+1"]}`; }).catch(() => {}));
 }
+
+addEventListener("pageshow", () => { const v = document.querySelector(".ver select"); if (v) v.value = ""; });
 
 /* Close dialogs on backdrop click */
 document.querySelectorAll("dialog").forEach(d => d.addEventListener("click", e => { if (e.target === d) d.close(); }));
