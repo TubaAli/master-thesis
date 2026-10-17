@@ -17,8 +17,9 @@
   }
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.6 "DM Sans", system-ui, sans-serif; }
-  h1, h2, h3, .num, button { font-family: Outfit, "DM Sans", sans-serif; }
+  h1, h2, h3, .num, button, select { font-family: Outfit, "DM Sans", sans-serif; }
   strong { color: var(--head); }
+  a { color: var(--head); }
   button { cursor: pointer; }
 
   .hero {
@@ -37,6 +38,9 @@
   .meta { color: var(--muted); font-size: 14px; }
   .tag { display: inline-block; background: var(--lilac); color: var(--head); font-size: 12px; font-weight: 700;
          padding: 3px 12px; border-radius: 999px; }
+  .ver { display: inline-flex; align-items: center; gap: 8px; margin-left: 8px; font-size: 13px; color: var(--muted); }
+  .ver select { border: 1px solid var(--murasaki); background: var(--surface); color: var(--head); font-size: 13px; font-weight: 600;
+                padding: 3px 8px; border-radius: 999px; }
   h1 { font-size: clamp(30px, 5.5vw, 48px); line-height: 1.08; font-weight: 700; color: var(--head);
        margin: 14px 0 10px; letter-spacing: -.01em; max-width: 18ch; }
   .bar { width: 72px; height: 6px; background: var(--murasaki); margin: 16px 0 14px; }
@@ -45,19 +49,27 @@
   section { margin-top: 56px; }
   h2 { display: flex; align-items: baseline; gap: 14px; font-size: 24px; font-weight: 600; color: var(--head); margin: 0 0 6px; }
   .num { color: var(--lilac); font-size: 40px; font-weight: 700; line-height: 1; -webkit-text-stroke: 1px var(--murasaki); }
-  a { color: var(--head); }
   .hint { color: var(--muted); font-size: 14px; margin: 0 0 18px; }
   h3 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--head); margin: 26px 0 10px; }
   .statement { background: var(--soft); border-left: 4px solid var(--murasaki); padding: 18px 22px; font-size: 19px; font-weight: 500; margin: 0 0 18px; }
+  .note { border: 1px dashed var(--murasaki); border-radius: 10px; padding: 10px 14px; font-size: 15px; margin-top: 12px; }
 
   .table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); font-size: 15px; }
   .table th, .table td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
   .table th { background: var(--soft); color: var(--head); font-weight: 700; font-size: 13px; }
   .table tr:last-child td { border-bottom: 0; }
   .table td:first-child { font-weight: 700; color: var(--head); }
+  .table small { color: var(--muted); }
 
-  /* Journey map (flowchart) */
-  .map { display: grid; gap: 0; }
+  /* Pareto explainer */
+  .pareto { display: grid; grid-template-columns: 240px 1fr; gap: 20px; align-items: center; background: var(--surface);
+            border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
+  .pareto svg { width: 100%; height: auto; }
+  .pareto ul { margin: 0; padding-left: 20px; }
+  .pareto li { margin: 5px 0; }
+
+  /* Journey map */
+  .map { display: grid; }
   .node { display: grid; grid-template-columns: 44px 1fr; gap: 12px; align-items: start; background: none; border: 0;
           text-align: left; padding: 0; color: inherit; font: inherit; }
   .node .dot { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 16px;
@@ -72,12 +84,13 @@
   .node.active .dot { background: var(--murasaki); color: var(--cream); }
   .node[data-s="dropped"] .label b { text-decoration: line-through; text-decoration-color: var(--muted); }
   .chip { display: inline-block; font-size: 11px; font-weight: 700; padding: 1px 9px; border-radius: 999px; margin-left: 6px;
-          vertical-align: 2px; background: var(--lilac); color: var(--head); text-decoration: none; }
+          vertical-align: 2px; background: var(--lilac); color: var(--head); }
   .chip.dropped { background: transparent; border: 1px solid var(--muted); color: var(--muted); }
   .chip.changed { background: transparent; border: 1px dashed var(--murasaki); color: var(--head); }
   .chip.now { background: var(--murasaki); color: var(--cream); }
+  .when { font-family: Outfit, sans-serif; font-size: 12px; font-weight: 600; color: var(--head); }
 
-  .journey { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 28px; align-items: start; }
+  .journey { display: grid; grid-template-columns: minmax(0, 310px) minmax(0, 1fr); gap: 28px; align-items: start; }
   .card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px 24px; position: sticky; top: 16px; }
   .card h4 { font-family: Outfit, sans-serif; font-size: 21px; color: var(--head); margin: 6px 0 12px; line-height: 1.25; }
   .card ul { padding-left: 20px; margin: 6px 0 14px; }
@@ -86,10 +99,22 @@
   .card .why b { font-family: Outfit, sans-serif; color: var(--head); display: block; margin-bottom: 2px; }
   .nav { display: flex; justify-content: space-between; align-items: center; margin-top: 18px; gap: 10px; }
   .btn { border: 2px solid var(--murasaki); background: var(--surface); color: var(--head); font-weight: 600; font-size: 15px;
-         padding: 8px 18px; border-radius: 999px; }
+         padding: 8px 18px; border-radius: 999px; text-decoration: none; display: inline-block; }
   .btn.primary { background: var(--murasaki); color: var(--cream); }
   .btn:disabled { opacity: .35; cursor: default; }
   .step { color: var(--muted); font-size: 13px; }
+
+  /* Use-case voting */
+  .cases { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .case { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; display: flex; flex-direction: column; }
+  .case h4 { font-family: Outfit, sans-serif; color: var(--head); font-size: 19px; margin: 0 0 2px; }
+  .case .place { color: var(--muted); font-size: 14px; margin-bottom: 10px; }
+  .case dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; margin: 0 0 14px; font-size: 14px; }
+  .case dt { font-weight: 700; color: var(--head); }
+  .case dd { margin: 0; }
+  .meter { letter-spacing: 2px; color: var(--head); }
+  .case .foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .votes { font-family: Outfit, sans-serif; font-weight: 700; color: var(--head); font-size: 15px; }
 
   /* Game */
   .game { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px 24px; }
@@ -134,7 +159,8 @@
 
   footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
   @media (max-width: 680px) {
-    .journey, .split { grid-template-columns: 1fr; }
+    .journey, .split, .cases, .pareto { grid-template-columns: 1fr; }
+    .pareto svg { max-width: 260px; }
     .card { position: static; }
     .checks { grid-template-columns: 1fr; }
     .hero::after { width: 140px; height: 140px; right: -40px; top: -40px; }
@@ -145,7 +171,16 @@
 <body>
 <header class="hero">
   <div class="wrap">
-    <span class="tag">v2.2 · 2026-10-17</span>
+    <span class="tag">v2.3 · 2026-10-17</span>
+    <label class="ver">Version
+      <select onchange="if (this.value) location.href = this.value" aria-label="Choose version">
+        <option value="">v2.3 (latest)</option>
+        <option value="versions/v2.2.html">v2.2 · 17 Oct</option>
+        <option value="versions/v2.1.html">v2.1 · 16 Oct</option>
+        <option value="versions/v2.html">v2 · 16 Oct</option>
+        <option value="versions/v1.html">v1 · 16 Oct</option>
+      </select>
+    </label>
     <h1>Proxies for Absent Stakeholders in Agentic Economies</h1>
     <div class="bar"></div>
     <div class="meta">Tuba Ali · Graduate School of Design &amp; Science, Chiba Institute of Technology</div>
@@ -160,49 +195,91 @@
       <h2><span class="num">01</span>Where I am now</h2>
       <button class="pill" onclick="document.getElementById('adv').showModal()">Advisor's 2 questions ↗</button>
     </div>
-    <p class="hint">The direction after today's exploration.</p>
-    <p class="statement">We are starting to let AI agents buy, lend and negotiate for us, weighing trade-offs that touch things which can't speak for themselves or barely appear in their training data. When two agents strike a deal, the parties it affects most (an ecosystem, a community, a tradition) have no seat. Can a proxy agent give them one that is faithful, hard to capture, and leaves all parties better off?</p>
+    <p class="hint">Updated after the advisor meeting on 17 Oct 2026.</p>
+    <p class="statement">We are starting to let AI agents buy, lend and negotiate for us, weighing trade-offs that touch things which can't speak for themselves or barely appear in their training data. When two agents strike a deal, the parties it affects most (an ecosystem, a community, a tradition) have no seat. Can a proxy agent give them one, and move outcomes toward the Pareto frontier?</p>
 
+    <h3>Research questions</h3>
     <table class="table">
-      <tr><th>RQ</th><th>Question</th><th>Metric</th></tr>
-      <tr><td>RQ1 · Blindness</td><td>In agent-to-agent deals, how much cost lands on absent stakeholders?</td><td>External cost per deal</td></tr>
-      <tr><td>RQ2 · Fidelity &amp; capture</td><td>Does the proxy match ground truth from communities and experts? Can trading agents persuade it, bribe it, or collude around it?</td><td>Fidelity score; capture rate</td></tr>
-      <tr><td>RQ3 · Joint gains</td><td>Does adding a proxy increase total value for everyone, including the trading agents?</td><td>Change in joint value</td></tr>
+      <tr><th>RQ</th><th>Question</th><th>Measure</th></tr>
+      <tr><td>RQ1 · Pareto efficiency</td>
+          <td>Across a 3-step ladder, (a) no representation → (b) today's practice (a public-comment agent with partial info) → (c) proxy agents, do proxies move outcomes toward the Pareto frontier, including ecosystem objectives?</td>
+          <td>Dominated (lose-lose) rate <small>(headline)</small> + distance to frontier</td></tr>
+      <tr><td>RQ2 · Shared perception</td>
+          <td>Does the proxy perceive reality the way the humans it represents do? Same <strong>red lines</strong> (non-negotiables), same <strong>beliefs about impact</strong>, and the same <strong>Bayesian updating</strong> of those beliefs as evidence arrives?</td>
+          <td>Red-line agreement; belief gap; update gap</td></tr>
+      <tr><td>RQ3 · Deception &amp; capture</td>
+          <td>Can an agent deceive another or capture the proxy? Does that move the outcome <em>along</em> the frontier (redistribution) or <em>off</em> it (lose-lose)?</td>
+          <td>Shift along vs. off the frontier</td></tr>
     </table>
+    <p class="note"><strong>RQ2 data:</strong> documented disputes (media, social media, public testimony), or APS Paper 2 if the use case fits it.</p>
+
+    <h3>Pareto framing</h3>
+    <div class="pareto">
+      <svg viewBox="0 0 240 190" role="img" aria-label="Pareto frontier sketch: dominated outcome inside the curve, proxy moves it to the frontier">
+        <line x1="30" y1="160" x2="225" y2="160" stroke="#5C1142" stroke-width="1.5"/>
+        <line x1="30" y1="160" x2="30" y2="15" stroke="#5C1142" stroke-width="1.5"/>
+        <text x="128" y="182" font-size="11" fill="#5F4C5B" text-anchor="middle">Company objective →</text>
+        <text x="14" y="90" font-size="11" fill="#5F4C5B" text-anchor="middle" transform="rotate(-90 14 90)">Community / ecosystem →</text>
+        <path d="M45 30 Q 150 35 205 145" fill="none" stroke="#5C1142" stroke-width="3"/>
+        <text x="150" y="30" font-size="11" fill="#5C1142" font-weight="700">Pareto frontier</text>
+        <circle cx="95" cy="120" r="7" fill="#FBF3EC" stroke="#5C1142" stroke-width="2"/>
+        <text x="64" y="142" font-size="11" fill="#5F4C5B">dominated</text>
+        <path d="M101 114 L 132 72" stroke="#5C1142" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#ar)"/>
+        <circle cx="137" cy="66" r="7" fill="#DDC8EE" stroke="#5C1142" stroke-width="2"/>
+        <text x="146" y="82" font-size="11" fill="#5C1142" font-weight="700">with proxy</text>
+        <defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#5C1142"/></marker></defs>
+      </svg>
+      <ul>
+        <li>Each stakeholder's interests = one objective.</li>
+        <li><strong>Pareto optimal:</strong> no other deal is better on all objectives.</li>
+        <li><strong>Dominated:</strong> a better deal existed but wasn't reached. A true lose-lose.</li>
+        <li>No deal is "the best". Weights are applied by humans, not the model.</li>
+        <li>"Win-win" stays the vision. Pareto is how I measure it.</li>
+      </ul>
+    </div>
+
+    <h3>Agent design: tunable traits</h3>
+    <table class="table">
+      <tr><th>Trait</th><th>What it varies</th><th>Scope</th></tr>
+      <tr><td>Rationality level</td><td>Fully rational ↔ boundedly rational (noise, satisficing)</td><td>Core</td></tr>
+      <tr><td>Openness to evidence</td><td>Strength of the prior in Bayesian updating; closed agents ignore new information</td><td>Core</td></tr>
+      <tr><td>Information access</td><td>Full, partial, or wrong information (asymmetry)</td><td>Core</td></tr>
+      <tr><td>Biases &amp; emotion</td><td>Loss aversion, status-quo bias, distrust, place attachment</td><td>Stretch</td></tr>
+    </table>
+    <p class="note"><strong>Advisor's open question:</strong> should proxies be rational or irrational? Irrational agents may represent real communities better, so rationality is a tunable parameter.</p>
 
     <h3>Absent stakeholders (Ostrom's social-ecological systems + more-than-human design)</h3>
-    <p style="margin:0">Nature · community relationships · cultural traditions · future generations</p>
-
-    <h3>Use cases</h3>
-    <table class="table">
-      <tr><th>Use case</th><th>Deal</th><th>Absent stakeholder</th></tr>
-      <tr><td>Agentic procurement</td><td>Buyer agent ↔ supplier agent</td><td>Sourcing region's ecosystem and labour community</td></tr>
-      <tr><td>AI lending</td><td>Credit agent ↔ small local business</td><td>Neighbourhood ties, a local tradition</td></tr>
-      <tr><td>Infrastructure siting</td><td>Developer agent ↔ municipality agent</td><td>Residents, local ecology (Inzai data-centre case)</td></tr>
-    </table>
+    <p style="margin:0">Nature · local communities · cultural traditions · future generations</p>
 
     <h3>Builds on my APS research</h3>
     <p style="margin:0 0 12px">My <a href="https://tuba-sds.github.io/Final-APS/research-flow.html">APS research</a> measures what AI says matters: models match humans on facts but not on care (a 0.64 gap, in 7 of 8 models). My thesis tests whether that care gap shows up when AI acts, and whether a proxy can close it.</p>
     <table class="table">
       <tr><th>Stage</th><th>Work</th><th>Question</th></tr>
       <tr><td>1. Judgment</td><td>APS (Paper 1 + Paper 2)</td><td>Do models decide who matters the way people do? <em>Finding: models agree with humans on facts but not on care.</em></td></tr>
-      <tr><td>2. Action</td><td>Thesis RQ1</td><td>Does the care gap show up as costs pushed onto absent stakeholders in agent deals?</td></tr>
-      <tr><td>3. Representation</td><td>Thesis RQ2–RQ3</td><td>Can a proxy agent close the gap, resist capture, and create joint gains?</td></tr>
+      <tr><td>2. Action</td><td>Thesis RQ1</td><td>Does the care gap show up as dominated outcomes for absent stakeholders?</td></tr>
+      <tr><td>3. Representation</td><td>Thesis RQ2–RQ3</td><td>Does the proxy share human perception, and does it hold up against deception and capture?</td></tr>
     </table>
+    <p class="note"><strong>Open question (17 Oct):</strong> APS answers a slightly different question, and RQ1 and RQ3 may stand without it. The link is to be confirmed.</p>
 
     <h3>My criteria, all met</h3>
     <ul class="checks">
-      <li>Win-win: RQ3 measures joint value</li>
+      <li>Win-win vision, measured as Pareto optimality</li>
       <li>Simulated: multi-agent sandbox</li>
       <li>Startup path: proxy layer as an API</li>
       <li>Not a red ocean: no benchmark scores absent parties</li>
-      <li>AI safety: capture &amp; collusion (Cooperative AI Foundation, 2025)</li>
+      <li>AI safety: deception, capture, collusion</li>
       <li>Policy: who certifies a proxy, and its standing</li>
     </ul>
   </section>
 
   <section>
-    <h2><span class="num">02</span>How I got here</h2>
+    <h2><span class="num">02</span>Vote: first use case</h2>
+    <p class="hint">Which case should the first simulation run on? Vote with a 👍 on GitHub (needs a GitHub account).</p>
+    <div class="cases" id="cases"></div>
+  </section>
+
+  <section>
+    <h2><span class="num">03</span>How I got here</h2>
     <p class="hint">Tap a stop, or use Next. Crossed-out stops are directions I dropped.</p>
     <div class="journey">
       <div class="map" id="map" role="tablist" aria-label="Exploration steps"></div>
@@ -211,72 +288,72 @@
   </section>
 
   <section>
-    <h2><span class="num">03</span>Guess my reasoning</h2>
+    <h2><span class="num">04</span>Guess my reasoning</h2>
     <p class="hint">A 5-question game about why I made each decision.</p>
     <div class="game" id="game"></div>
   </section>
 
   <section>
-    <h2><span class="num">04</span>Scope</h2>
+    <h2><span class="num">05</span>Scope</h2>
     <div class="split">
       <div class="box">
-        <h3>In the thesis</h3>
+        <h3>In the thesis (medium core)</h3>
         <ul>
-          <li>RQ1 + RQ2</li>
-          <li>First version of RQ3</li>
-          <li>Simulation, 1–2 use cases</li>
+          <li>RQ1–RQ3 in simulation</li>
+          <li>Manipulation: deception + capture</li>
+          <li>Traits: rationality, openness, information access</li>
+          <li>First use case (chosen by vote)</li>
         </ul>
       </div>
       <div class="box">
         <h3>After the thesis</h3>
         <ul>
-          <li>All 3 use cases</li>
+          <li>Collusion; biases &amp; emotion</li>
+          <li>The other use cases</li>
           <li>Certification standard for proxies</li>
-          <li>Proxy-layer API startup</li>
-          <li>Policy work</li>
+          <li>Proxy-layer API startup; policy work</li>
         </ul>
       </div>
     </div>
     <h3>Guardrail</h3>
     <p style="margin:0">Proxies <strong>inform</strong> real consultation; they never <strong>replace</strong> it.</p>
-    <h3>Next step</h3>
-    <p style="margin:0">Roadmap: what fits in the thesis vs. later.</p>
   </section>
 
   <section>
-    <h2><span class="num">05</span>Questions for my advisor</h2>
+    <h2><span class="num">06</span>Questions for my advisor</h2>
     <ol class="plain">
-      <li>Which use case should I start with: procurement, lending, or siting?</li>
-      <li>How should I get ground truth for culture and relationships: interviews, surveys, or documented disputes?</li>
-      <li>Is RQ1 + RQ2 + a first RQ3 the right scope for a master's?</li>
+      <li>Which use case should I start with? (now open to a vote, above)</li>
+      <li>How should I get human perception data: interviews, surveys, or documented disputes?</li>
+      <li>Is the medium core the right scope for a master's?</li>
     </ol>
   </section>
 
   <section>
-    <h2><span class="num">06</span>First experiment (next 4 weeks)</h2>
-    <p class="hint">An RQ1 pilot: do agents push costs onto absent parties?</p>
+    <h2><span class="num">07</span>First experiment (next 4 weeks)</h2>
+    <p class="hint">An RQ1 pilot on the winning use case.</p>
     <table class="table">
       <tr><th>Week</th><th>Task</th></tr>
-      <tr><td>1</td><td>Design 10 procurement scenarios, each with a hidden cost to an absent stakeholder</td></tr>
-      <tr><td>2</td><td>Build a buyer–supplier negotiation harness (adapting open GovSim / negotiation code)</td></tr>
-      <tr><td>3</td><td>Run 3 LLMs, with and without the stakeholder's information visible</td></tr>
-      <tr><td>4</td><td>Measure external cost per deal; write a 1-page memo</td></tr>
+      <tr><td>1</td><td>Encode the case as a multi-issue negotiation with discrete options; compute the Pareto frontier</td></tr>
+      <tr><td>2</td><td>Build company, municipality, community and proxy agents with rationality and openness parameters</td></tr>
+      <tr><td>3</td><td>Run ladder (a) → (b) → (c) with 3 LLMs</td></tr>
+      <tr><td>4</td><td>Measure dominated rate and distance to frontier; write a 1-page memo</td></tr>
     </table>
   </section>
 
   <section>
-    <h2><span class="num">07</span>Risks</h2>
+    <h2><span class="num">08</span>Risks</h2>
     <table class="table">
       <tr><th>Risk</th><th>Mitigation</th></tr>
-      <tr><td>Contested ground truth</td><td>Communities disagree. Measure whether the proxy captures the spread of views, not just the average.</td></tr>
+      <tr><td>Contested perception</td><td>Communities disagree. Measure whether the proxy captures the spread of views, not just the average.</td></tr>
+      <tr><td>Straw-man baseline</td><td>Measure existing representation (ladder step b); don't assume it is zero.</td></tr>
       <tr><td>Legitimacy</td><td>Who appoints a proxy? Make it an explicit research question for the policy track.</td></tr>
       <tr><td>Consent-washing</td><td>Proxies inform real consultation; they never replace it.</td></tr>
-      <tr><td>Scope creep</td><td>1–2 use cases in the thesis; the rest after.</td></tr>
+      <tr><td>Scope creep</td><td>Medium core in the thesis; the rest after.</td></tr>
     </table>
   </section>
 
   <section>
-    <h2><span class="num">08</span>Committee fit &amp; key sources</h2>
+    <h2><span class="num">09</span>Committee fit &amp; key sources</h2>
     <table class="table">
       <tr><th>Member</th><th>What they bring</th></tr>
       <tr><td>Ira Winder</td><td>Simulation and decision-support tools</td></tr>
@@ -294,9 +371,8 @@
     </ul>
   </section>
 
-  <footer>v2 supersedes v1 "Ecocentric AI-Agent Societies" (see version history on GitHub). Designed in the Tekna palette.</footer>
+  <footer>v2.3 · use the version selector at the top to compare earlier versions. Designed in the Tekna palette.</footer>
 </main>
-
 
 <dialog id="adv" aria-labelledby="advt">
   <div class="dlg">
@@ -311,10 +387,10 @@
     </ol>
 
     <h3>2 · What question is worth answering, and for whom?</h3>
-    <p class="statement">When AI agents trade with each other, can a proxy agent faithfully represent the stakeholders who aren't at the table, resist capture, and increase value for everyone?</p>
+    <p class="statement">When AI agents negotiate with each other, can a proxy agent represent the stakeholders who aren't at the table, share their perception of reality, resist capture, and move outcomes toward the Pareto frontier?</p>
     <table class="table">
       <tr><th>For</th><th>Why</th></tr>
-      <tr><td>AI labs</td><td>A benchmark for costs pushed onto absent parties, and for capture and collusion (AI safety)</td></tr>
+      <tr><td>AI labs</td><td>A benchmark for dominated outcomes, deception and capture (AI safety)</td></tr>
       <tr><td>Policymakers</td><td>Evidence for how to certify proxies and what standing to give them</td></tr>
       <tr><td>Firms &amp; founders</td><td>Fewer disputes, evidence for TNFD reporting, a proxy-layer product</td></tr>
     </table>
@@ -322,47 +398,93 @@
 </dialog>
 
 <script>
+/* Use cases + live GitHub 👍 counts */
+const REPO = "TubaAli/master-thesis";
+const cases = [
+  { n: 1, t: "Data-centre siting", place: "Memphis, US (xAI Colossus) + Inzai, Japan",
+    f: [["Stakes", "US$64–156B of US projects blocked or delayed, 2024–25 (industry-funded count)"],
+        ["Public testimony", "●●● Very large: council hearings, lawsuits, news"],
+        ["Local tradition", "●○○ Low"],
+        ["Buzz", "●●● Memphis moratorium vote 20 Oct 2026; an election issue"],
+        ["Absent parties", "Residents' health, water, grid, future generations"]] },
+  { n: 2, t: "Overtourism", place: "Kyoto / Kamakura, Japan",
+    f: [["Stakes", "Tourism revenue vs. residents' daily life"],
+        ["Public testimony", "●●○ Medium: resident complaints, media"],
+        ["Local tradition", "●●● Very high: temples, Gion, festivals"],
+        ["Buzz", "●●○ High, seasonal"],
+        ["Absent parties", "Traditions, sacred sites, neighbourhood ties"]] },
+  { n: 3, t: "AI lending", place: "Global FinTech (advisor's example)",
+    f: [["Stakes", "Loans approved without counting harm to third parties"],
+        ["Public testimony", "●○○ Small: the harm is mostly invisible"],
+        ["Local tradition", "●○○ Low"],
+        ["Buzz", "●●○ Medium; strong FinTech fit"],
+        ["Absent parties", "Ecosystems and neighbours affected by financed projects"]] },
+  { n: 4, t: "Biodiversity credits", place: "Global voluntary nature market",
+    f: [["Stakes", "~US$3.5M sales projected in 2026 (tiny, early)"],
+        ["Public testimony", "●○○ Small; expert debate (Verra standardisation fight)"],
+        ["Local tradition", "●●○ Medium: Indigenous land"],
+        ["Buzz", "●●○ Niche but rising; very new market"],
+        ["Absent parties", "The ecosystem itself, local communities"]] }
+];
+const casesEl = document.getElementById("cases");
+casesEl.innerHTML = cases.map(c => `
+  <article class="case">
+    <h4>${c.t}</h4>
+    <div class="place">${c.place}</div>
+    <dl>${c.f.map(([k, v]) => `<dt>${k}</dt><dd>${v.replace(/^([●○]+)/, '<span class="meter">$1</span>')}</dd>`).join("")}</dl>
+    <div class="foot">
+      <span class="votes" id="v${c.n}">👍 –</span>
+      <a class="btn primary" href="https://github.com/${REPO}/issues/${c.n}" target="_blank" rel="noopener">Vote on GitHub</a>
+    </div>
+  </article>`).join("");
+cases.forEach(c => {
+  fetch(`https://api.github.com/repos/${REPO}/issues/${c.n}`)
+    .then(r => r.ok ? r.json() : null)
+    .then(d => { if (d) document.getElementById("v" + c.n).textContent = `👍 ${d.reactions["+1"]}`; })
+    .catch(() => {});
+});
+
+/* Journey */
 const stops = [
-  { t: "Community economies", s: "changed", sub: "IDP, May 2026",
+  { t: "Community economies", s: "changed", when: "May 2026", sub: "IDP",
     did: ["Decentralized, local economic zones", "Prototype in Woven City", "Key question: is it possible starting from Japan?"],
     why: "Too broad and not testable. My interests moved toward AI values." },
-  { t: "Self-discovery rounds", s: "kept", sub: "Multiple-choice Q&A",
+  { t: "Self-discovery rounds", s: "kept", when: "Apr–Jun 2026", sub: "Multiple-choice Q&A",
     did: ["Pull: AI behavior & values, future & virtual societies, startups", "Frustration: AI serves only humans", "Simulation I'd watch: AI + ecosystem", "Audience: AI labs, policymakers, founders"],
     why: "Showed my core: whose values AI holds, and who gets left out." },
-  { t: "v1: Ecocentric AI-agent societies", s: "dropped", sub: "Constitutions, value drift, human baseline",
+  { t: "v1: Ecocentric AI-agent societies", s: "dropped", when: "Jul–Aug 2026", sub: "Constitutions, value drift, human baseline",
     did: ["Ecocentric vs. anthropocentric constitutions", "Decentralized society; nature as stakeholder", "Metrics: human welfare, value drift, governance"],
     why: "Red ocean (GovSim, Concordia, Project Sid, AgentSociety) and inconsistent: no ecosystem metric, a human baseline that can't play 100 generations, prompts ≠ model design." },
-  { t: "Four novel options", s: "kept", sub: "Less crowded spaces",
-    did: ["1. AI as proxy for nature ✓", "2. Ecological blindness in AI finance agents ✓", "3. Wallets for nature (later)", "4. Cross-cultural views of nature (already in my current paper)"],
+  { t: "APS research: who matters to AI", s: "kept", when: "Sep 2026", sub: "Judgment → Action → Representation",
+    did: ["APS: models match humans on facts, not on care (0.64 gap)", "Bridge: care gap → costs to absent stakeholders", "APS human norms → reference for proxy perception", "Secondary checks: factors collapse into one number; 'legal rule' route"],
+    why: "Care maps onto decisions, it is APS's headline result, and it explains why a proxy is needed." },
+  { t: "Four novel options", s: "kept", when: "Oct 2026", sub: "Less crowded spaces",
+    did: ["1. AI as proxy for nature ✓", "2. Ecological blindness in AI finance agents ✓", "3. Wallets for nature (later)", "4. Cross-cultural views of nature (already in my APS paper)"],
     why: "Prior work only measures text. Decisions and representation are almost empty." },
-  { t: "Ecology → voiceless stakeholders", s: "kept", sub: "Broader, but scoped",
-    did: ["Nature + community relationships + cultural traditions", "Grounded in Ostrom's social-ecological systems", "Scoped: 3 stakeholder types, 1 decision, 1 case"],
+  { t: "Ecology → voiceless stakeholders", s: "kept", when: "Oct 2026", sub: "Broader, but scoped",
+    did: ["Nature + community relationships + cultural traditions", "Grounded in Ostrom's social-ecological systems", "Scoped: a few stakeholder types per case"],
     why: "Treats social and ecological parts as one system without becoming endless." },
-  { t: "Proxy Council for data centres", s: "changed", sub: "Inzai, Tsukuba, Hino disputes",
-    did: ["Proxies negotiate with a developer agent", "Ground truth: real resident disputes", "Framed as advocacy"],
-    why: "Too 'goodwill' and too infrastructure-only. Reframed as win-win co-design, and infrastructure became one use case." },
-  { t: "Proxies for absent stakeholders", s: "kept", sub: "Directions 1 + 2 combined",
-    did: ["Problem (2): agents push costs onto absent parties", "Solution (1): a proxy agent speaks for them", "Tested across 3 use cases in simulation"],
+  { t: "Proxies for absent stakeholders", s: "kept", when: "Oct 2026", sub: "Directions 1 + 2 combined",
+    did: ["Problem (2): agents push costs onto absent parties", "Solution (1): a proxy agent speaks for them", "Win-win co-design, not advocacy"],
     why: "Meets all my criteria: win-win, simulated, startup path, not a red ocean, AI safety, policy, future-facing." },
-  { t: "Builds on my APS research", s: "now", sub: "Judgment → Action → Representation",
-    did: ["APS: models match humans on facts, not on care (0.64 gap)", "Bridge: care gap → costs to absent stakeholders (RQ1)", "APS human norms → ground truth for proxy fidelity (RQ2)", "Secondary checks: factors collapse into one number; 'legal rule' route"],
-    why: "Care maps directly onto decisions, it is APS's headline result, and it explains why a proxy is needed." }
+  { t: "Advisor meeting: Pareto framing", s: "now", when: "17 Oct 2026", sub: "RQs, perception, traits, use cases",
+    did: ["RQs reframed with Pareto + a 3-step null ladder", "'Ground truth' → shared perception: red lines + Bayesian beliefs", "Rationality, openness, information access as tunable traits", "Use cases shortlisted → open vote", "APS link marked as open"],
+    why: "Pareto avoids claiming 'the best' deal, keeps weights with humans, and makes each RQ's baseline explicit." }
 ];
 const label = { kept: "kept", dropped: "dropped", changed: "changed", now: "now" };
 const map = document.getElementById("map"), card = document.getElementById("card");
-let cur = 0;
 stops.forEach((st, i) => {
   const b = document.createElement("button");
   b.className = "node"; b.dataset.s = st.s; b.setAttribute("role", "tab");
-  b.innerHTML = `<span class="dot">${i + 1}</span><span class="label"><b>${st.t}</b><span class="chip ${st.s}">${label[st.s]}</span><small>${st.sub}</small></span>`;
+  b.innerHTML = `<span class="dot">${i + 1}</span><span class="label"><span class="when">${st.when}</span><br><b>${st.t}</b><span class="chip ${st.s}">${label[st.s]}</span><small>${st.sub}</small></span>`;
   b.onclick = () => { show(i); if (innerWidth < 680) card.scrollIntoView({ behavior: "smooth", block: "start" }); };
   map.appendChild(b);
 });
 function show(i) {
-  cur = i; const st = stops[i];
+  const st = stops[i];
   [...map.children].forEach((n, j) => { n.classList.toggle("active", j === i); n.setAttribute("aria-selected", j === i); });
   card.innerHTML = `
-    <span class="chip ${st.s}" style="margin:0">${label[st.s]}</span>
+    <span class="chip ${st.s}" style="margin:0">${label[st.s]}</span> <span class="when">${st.when}</span>
     <h4>${st.t}</h4>
     <ul>${st.did.map(d => `<li>${d}</li>`).join("")}</ul>
     <div class="why"><b>Why</b>${st.why}</div>
@@ -372,19 +494,20 @@ function show(i) {
       <button class="btn primary" ${i === stops.length - 1 ? "disabled" : ""} onclick="show(${i + 1})">Next →</button>
     </div>`;
 }
-show(0);
+show(stops.length - 1);
 
+/* Game */
 const quiz = [
   { q: "Why did I drop v1 (Ecocentric AI-agent societies)?", o: ["It wasn't about AI", "It was a red ocean and had inconsistencies", "My advisor rejected it"], a: 1,
     e: "GovSim already covers LLM agents in the commons, and v1 had no ecosystem metric." },
   { q: "Why broaden 'ecology' beyond forests and rivers?", o: ["To include communities and traditions as one system", "To make the thesis bigger", "Because nature is too hard to simulate"], a: 0,
     e: "Ostrom's social-ecological systems framework treats them as one system." },
-  { q: "Why not frame it as AI defending nature against big players?", o: ["It's illegal", "Big players won't use a tool that only opposes them", "It's too technical"], a: 1,
-    e: "I want win-win: firms avoid disputes, and absent stakeholders get a voice." },
-  { q: "What makes it novel?", o: ["Using LLM agents", "Simulating an economy", "Scoring costs to parties who aren't at the table"], a: 2,
-    e: "Existing negotiation benchmarks only score the parties at the table." },
-  { q: "Why is it an AI-safety question?", o: ["Proxies can be captured, or agents can collude around them", "AI might become sentient", "Data centres use energy"], a: 0,
-    e: "Collusion that harms outsiders is a key multi-agent risk (Cooperative AI Foundation, 2025)." }
+  { q: "Why use Pareto language instead of 'the best deal'?", o: ["It sounds more technical", "No single deal is best; weights belong to humans, not the model", "Pareto is easier to compute"], a: 1,
+    e: "Every point on the frontier is a valid trade-off. A dominated deal is a true lose-lose." },
+  { q: "Why replace 'ground truth' with 'shared perception'?", o: ["Ground truth is a human's perception of reality, not reality itself", "It's shorter", "Humans are always wrong"], a: 0,
+    e: "So RQ2 asks whether the proxy sees red lines and impacts the way humans do, and updates its beliefs the same way." },
+  { q: "Why is it an AI-safety question?", o: ["Proxies can be deceived or captured", "AI might become sentient", "Data centres use energy"], a: 0,
+    e: "Deception and capture can push outcomes off the frontier (Cooperative AI Foundation, 2025)." }
 ];
 const game = document.getElementById("game");
 document.getElementById("adv").addEventListener("click", e => { if (e.target.id === "adv") e.target.close(); });

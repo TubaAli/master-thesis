@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Master Thesis Direction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* Tekna subset: Petal Cream + Fuji Lilac (light, dominant), Koki-murasaki (headings & design only) */
+  :root {
+    --cream: #FBF3EC; --lilac: #DDC8EE; --lilac-tint: #F1E7F6; --murasaki: #5C1142;
+    --bg: var(--cream); --surface: #FFFBF7; --soft: var(--lilac-tint);
+    --text: #5F4C5B; --muted: #8A7586; --head: var(--murasaki); --line: #EADFEC;
+    --lattice: rgba(92, 17, 66, .06);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.6 "DM Sans", system-ui, sans-serif; }
+  h1, h2, h3, .num, button { font-family: Outfit, "DM Sans", sans-serif; }
+  strong { color: var(--head); }
+  button { cursor: pointer; }
+
+  .hero {
+    position: relative; overflow: hidden; background-color: var(--soft);
+    background-image:
+      linear-gradient(var(--lattice) 1px, transparent 1px),
+      linear-gradient(90deg, var(--lattice) 1px, transparent 1px),
+      linear-gradient(45deg, transparent 48%, var(--lattice) 49%, var(--lattice) 51%, transparent 52%),
+      linear-gradient(-45deg, transparent 48%, var(--lattice) 49%, var(--lattice) 51%, transparent 52%);
+    background-size: 28px 28px;
+  }
+  .hero::after { content: ""; position: absolute; width: 220px; height: 220px; border-radius: 50%;
+                 border: 18px solid var(--lilac); right: -50px; top: -60px; }
+  .hero .wrap { position: relative; z-index: 1; padding-top: 52px; padding-bottom: 44px; }
+  .wrap { max-width: 820px; margin: 0 auto; padding-left: 16px; padding-right: 16px; }
+  .meta { color: var(--muted); font-size: 14px; }
+  .tag { display: inline-block; background: var(--lilac); color: var(--head); font-size: 12px; font-weight: 700;
+         padding: 3px 12px; border-radius: 999px; }
+  h1 { font-size: clamp(30px, 5.5vw, 48px); line-height: 1.08; font-weight: 700; color: var(--head);
+       margin: 14px 0 10px; letter-spacing: -.01em; max-width: 18ch; }
+  .bar { width: 72px; height: 6px; background: var(--murasaki); margin: 16px 0 14px; }
+
+  main.wrap { padding-bottom: 72px; }
+  section { margin-top: 56px; }
+  h2 { display: flex; align-items: baseline; gap: 14px; font-size: 24px; font-weight: 600; color: var(--head); margin: 0 0 6px; }
+  .num { color: var(--lilac); font-size: 40px; font-weight: 700; line-height: 1; -webkit-text-stroke: 1px var(--murasaki); }
+  a { color: var(--head); }
+  .hint { color: var(--muted); font-size: 14px; margin: 0 0 18px; }
+  h3 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--head); margin: 26px 0 10px; }
+  .statement { background: var(--soft); border-left: 4px solid var(--murasaki); padding: 18px 22px; font-size: 19px; font-weight: 500; margin: 0 0 18px; }
+
+  .table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); font-size: 15px; }
+  .table th, .table td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .table th { background: var(--soft); color: var(--head); font-weight: 700; font-size: 13px; }
+  .table tr:last-child td { border-bottom: 0; }
+  .table td:first-child { font-weight: 700; color: var(--head); }
+
+  /* Journey map (flowchart) */
+  .map { display: grid; gap: 0; }
+  .node { display: grid; grid-template-columns: 44px 1fr; gap: 12px; align-items: start; background: none; border: 0;
+          text-align: left; padding: 0; color: inherit; font: inherit; }
+  .node .dot { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 16px;
+               border: 2px solid var(--murasaki); background: var(--surface); color: var(--head); position: relative; }
+  .node:not(:last-child) .dot::after { content: ""; position: absolute; top: 44px; left: 50%; width: 2px; height: 26px;
+               background: var(--lilac); transform: translateX(-50%); }
+  .node .label { padding: 9px 14px; border-radius: 10px; margin-bottom: 26px; border: 1px solid transparent; transition: background .15s; }
+  .node .label b { font-family: Outfit, sans-serif; color: var(--head); font-weight: 600; }
+  .node .label small { display: block; color: var(--muted); font-size: 13px; }
+  .node:hover .label { background: var(--soft); }
+  .node.active .label { background: var(--soft); border-color: var(--lilac); }
+  .node.active .dot { background: var(--murasaki); color: var(--cream); }
+  .node[data-s="dropped"] .label b { text-decoration: line-through; text-decoration-color: var(--muted); }
+  .chip { display: inline-block; font-size: 11px; font-weight: 700; padding: 1px 9px; border-radius: 999px; margin-left: 6px;
+          vertical-align: 2px; background: var(--lilac); color: var(--head); text-decoration: none; }
+  .chip.dropped { background: transparent; border: 1px solid var(--muted); color: var(--muted); }
+  .chip.changed { background: transparent; border: 1px dashed var(--murasaki); color: var(--head); }
+  .chip.now { background: var(--murasaki); color: var(--cream); }
+
+  .journey { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 28px; align-items: start; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px 24px; position: sticky; top: 16px; }
+  .card h4 { font-family: Outfit, sans-serif; font-size: 21px; color: var(--head); margin: 6px 0 12px; line-height: 1.25; }
+  .card ul { padding-left: 20px; margin: 6px 0 14px; }
+  .card li { margin: 4px 0; }
+  .card .why { background: var(--soft); border-radius: 10px; padding: 12px 16px; }
+  .card .why b { font-family: Outfit, sans-serif; color: var(--head); display: block; margin-bottom: 2px; }
+  .nav { display: flex; justify-content: space-between; align-items: center; margin-top: 18px; gap: 10px; }
+  .btn { border: 2px solid var(--murasaki); background: var(--surface); color: var(--head); font-weight: 600; font-size: 15px;
+         padding: 8px 18px; border-radius: 999px; }
+  .btn.primary { background: var(--murasaki); color: var(--cream); }
+  .btn:disabled { opacity: .35; cursor: default; }
+  .step { color: var(--muted); font-size: 13px; }
+
+  /* Game */
+  .game { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px 24px; }
+  .game .q { font-family: Outfit, sans-serif; font-size: 19px; color: var(--head); margin: 4px 0 14px; }
+  .opts { display: grid; gap: 10px; }
+  .opt { text-align: left; border: 1px solid var(--line); background: var(--bg); color: var(--text); font: inherit; font-size: 16px;
+         padding: 11px 16px; border-radius: 10px; }
+  .opt:hover:not(:disabled) { border-color: var(--murasaki); }
+  .opt.right { background: var(--lilac); border-color: var(--murasaki); color: var(--head); font-weight: 600; }
+  .opt.wrong { opacity: .5; text-decoration: line-through; }
+  .feedback { margin-top: 14px; min-height: 24px; color: var(--head); font-weight: 500; }
+  .score { float: right; font-size: 13px; color: var(--muted); }
+
+  .checks { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 18px; }
+  .checks li { padding-left: 26px; position: relative; }
+  .checks li::before { content: "✓"; position: absolute; left: 0; top: 0; width: 18px; height: 18px; border-radius: 50%; background: var(--lilac);
+                       color: var(--head); font-size: 12px; font-weight: 700; display: grid; place-items: center; margin-top: 4px; }
+
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .box { background: var(--soft); border-radius: 12px; padding: 16px 20px; }
+  .box h3 { margin-top: 0; }
+  .box ul { margin: 0; padding-left: 20px; }
+
+  /* Advisor pop-up */
+  .h2row { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .h2row h2 { margin: 0; }
+  .pill { border: 2px solid var(--murasaki); background: var(--lilac); color: var(--head); font-weight: 600; font-size: 14px;
+          padding: 6px 16px; border-radius: 999px; }
+  .pill:hover { background: var(--murasaki); color: var(--cream); }
+  dialog { border: 0; border-radius: 16px; padding: 0; max-width: 620px; width: calc(100% - 32px); background: var(--surface); color: var(--text);
+           box-shadow: 0 20px 60px rgba(92, 17, 66, .25); }
+  dialog::backdrop { background: rgba(92, 17, 66, .35); }
+  .dlg { padding: 24px 26px; max-height: 85vh; overflow: auto; }
+  .dlg .top { display: flex; justify-content: space-between; align-items: center; }
+  .dlg .x { border: 0; background: var(--soft); color: var(--head); width: 34px; height: 34px; border-radius: 50%; font-size: 18px; }
+  .dlg h3:first-of-type { margin-top: 14px; }
+  .dlg .statement { font-size: 17px; }
+  .dlg ol { padding-left: 22px; margin: 0; }
+  .dlg li { margin: 4px 0; }
+  .plain { padding-left: 20px; margin: 0; }
+  .plain li { margin: 6px 0; }
+
+  footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+  @media (max-width: 680px) {
+    .journey, .split { grid-template-columns: 1fr; }
+    .card { position: static; }
+    .checks { grid-template-columns: 1fr; }
+    .hero::after { width: 140px; height: 140px; right: -40px; top: -40px; }
+    .statement { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+<div style="background:#5C1142;color:#FBF3EC;font:600 14px/1.4 system-ui,sans-serif;padding:10px 16px;text-align:center">Archived version v2.2 · <a href="../master-thesis.html" style="color:#DDC8EE">See latest version →</a></div>
+<header class="hero">
+  <div class="wrap">
+    <span class="tag">v2.2 · 2026-10-17</span>
+    <h1>Proxies for Absent Stakeholders in Agentic Economies</h1>
+    <div class="bar"></div>
+    <div class="meta">Tuba Ali · Graduate School of Design &amp; Science, Chiba Institute of Technology</div>
+    <div class="meta">Advisor: Ira Winder · Committee: Catharina Maracke, Joi Ito</div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section>
+    <div class="h2row">
+      <h2><span class="num">01</span>Where I am now</h2>
+      <button class="pill" onclick="document.getElementById('adv').showModal()">Advisor's 2 questions ↗</button>
+    </div>
+    <p class="hint">The direction after today's exploration.</p>
+    <p class="statement">We are starting to let AI agents buy, lend and negotiate for us, weighing trade-offs that touch things which can't speak for themselves or barely appear in their training data. When two agents strike a deal, the parties it affects most (an ecosystem, a community, a tradition) have no seat. Can a proxy agent give them one that is faithful, hard to capture, and leaves all parties better off?</p>
+
+    <table class="table">
+      <tr><th>RQ</th><th>Question</th><th>Metric</th></tr>
+      <tr><td>RQ1 · Blindness</td><td>In agent-to-agent deals, how much cost lands on absent stakeholders?</td><td>External cost per deal</td></tr>
+      <tr><td>RQ2 · Fidelity &amp; capture</td><td>Does the proxy match ground truth from communities and experts? Can trading agents persuade it, bribe it, or collude around it?</td><td>Fidelity score; capture rate</td></tr>
+      <tr><td>RQ3 · Joint gains</td><td>Does adding a proxy increase total value for everyone, including the trading agents?</td><td>Change in joint value</td></tr>
+    </table>
+
+    <h3>Absent stakeholders (Ostrom's social-ecological systems + more-than-human design)</h3>
+    <p style="margin:0">Nature · community relationships · cultural traditions · future generations</p>
+
+    <h3>Use cases</h3>
+    <table class="table">
+      <tr><th>Use case</th><th>Deal</th><th>Absent stakeholder</th></tr>
+      <tr><td>Agentic procurement</td><td>Buyer agent ↔ supplier agent</td><td>Sourcing region's ecosystem and labour community</td></tr>
+      <tr><td>AI lending</td><td>Credit agent ↔ small local business</td><td>Neighbourhood ties, a local tradition</td></tr>
+      <tr><td>Infrastructure siting</td><td>Developer agent ↔ municipality agent</td><td>Residents, local ecology (Inzai data-centre case)</td></tr>
+    </table>
+
+    <h3>Builds on my APS research</h3>
+    <p style="margin:0 0 12px">My <a href="https://tuba-sds.github.io/Final-APS/research-flow.html">APS research</a> measures what AI says matters: models match humans on facts but not on care (a 0.64 gap, in 7 of 8 models). My thesis tests whether that care gap shows up when AI acts, and whether a proxy can close it.</p>
+    <table class="table">
+      <tr><th>Stage</th><th>Work</th><th>Question</th></tr>
+      <tr><td>1. Judgment</td><td>APS (Paper 1 + Paper 2)</td><td>Do models decide who matters the way people do? <em>Finding: models agree with humans on facts but not on care.</em></td></tr>
+      <tr><td>2. Action</td><td>Thesis RQ1</td><td>Does the care gap show up as costs pushed onto absent stakeholders in agent deals?</td></tr>
+      <tr><td>3. Representation</td><td>Thesis RQ2–RQ3</td><td>Can a proxy agent close the gap, resist capture, and create joint gains?</td></tr>
+    </table>
+
+    <h3>My criteria, all met</h3>
+    <ul class="checks">
+      <li>Win-win: RQ3 measures joint value</li>
+      <li>Simulated: multi-agent sandbox</li>
+      <li>Startup path: proxy layer as an API</li>
+      <li>Not a red ocean: no benchmark scores absent parties</li>
+      <li>AI safety: capture &amp; collusion (Cooperative AI Foundation, 2025)</li>
+      <li>Policy: who certifies a proxy, and its standing</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="num">02</span>How I got here</h2>
+    <p class="hint">Tap a stop, or use Next. Crossed-out stops are directions I dropped.</p>
+    <div class="journey">
+      <div class="map" id="map" role="tablist" aria-label="Exploration steps"></div>
+      <div class="card" id="card" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">03</span>Guess my reasoning</h2>
+    <p class="hint">A 5-question game about why I made each decision.</p>
+    <div class="game" id="game"></div>
+  </section>
+
+  <section>
+    <h2><span class="num">04</span>Scope</h2>
+    <div class="split">
+      <div class="box">
+        <h3>In the thesis</h3>
+        <ul>
+          <li>RQ1 + RQ2</li>
+          <li>First version of RQ3</li>
+          <li>Simulation, 1–2 use cases</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>After the thesis</h3>
+        <ul>
+          <li>All 3 use cases</li>
+          <li>Certification standard for proxies</li>
+          <li>Proxy-layer API startup</li>
+          <li>Policy work</li>
+        </ul>
+      </div>
+    </div>
+    <h3>Guardrail</h3>
+    <p style="margin:0">Proxies <strong>inform</strong> real consultation; they never <strong>replace</strong> it.</p>
+    <h3>Next step</h3>
+    <p style="margin:0">Roadmap: what fits in the thesis vs. later.</p>
+  </section>
+
+  <section>
+    <h2><span class="num">05</span>Questions for my advisor</h2>
+    <ol class="plain">
+      <li>Which use case should I start with: procurement, lending, or siting?</li>
+      <li>How should I get ground truth for culture and relationships: interviews, surveys, or documented disputes?</li>
+      <li>Is RQ1 + RQ2 + a first RQ3 the right scope for a master's?</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2><span class="num">06</span>First experiment (next 4 weeks)</h2>
+    <p class="hint">An RQ1 pilot: do agents push costs onto absent parties?</p>
+    <table class="table">
+      <tr><th>Week</th><th>Task</th></tr>
+      <tr><td>1</td><td>Design 10 procurement scenarios, each with a hidden cost to an absent stakeholder</td></tr>
+      <tr><td>2</td><td>Build a buyer–supplier negotiation harness (adapting open GovSim / negotiation code)</td></tr>
+      <tr><td>3</td><td>Run 3 LLMs, with and without the stakeholder's information visible</td></tr>
+      <tr><td>4</td><td>Measure external cost per deal; write a 1-page memo</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2><span class="num">07</span>Risks</h2>
+    <table class="table">
+      <tr><th>Risk</th><th>Mitigation</th></tr>
+      <tr><td>Contested ground truth</td><td>Communities disagree. Measure whether the proxy captures the spread of views, not just the average.</td></tr>
+      <tr><td>Legitimacy</td><td>Who appoints a proxy? Make it an explicit research question for the policy track.</td></tr>
+      <tr><td>Consent-washing</td><td>Proxies inform real consultation; they never replace it.</td></tr>
+      <tr><td>Scope creep</td><td>1–2 use cases in the thesis; the rest after.</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2><span class="num">08</span>Committee fit &amp; key sources</h2>
+    <table class="table">
+      <tr><th>Member</th><th>What they bring</th></tr>
+      <tr><td>Ira Winder</td><td>Simulation and decision-support tools</td></tr>
+      <tr><td>Catharina Maracke</td><td>Law, governance and the standing of proxies</td></tr>
+      <tr><td>Joi Ito</td><td>AI agents, decentralized governance, startups</td></tr>
+    </table>
+    <h3>Key sources</h3>
+    <ul class="plain">
+      <li><a href="https://arxiv.org/abs/2404.16698">GovSim</a>: LLM agents in the commons (NeurIPS 2024)</li>
+      <li><a href="https://arxiv.org/html/2607.02814">Faithful Delegates</a>: fiduciary duties of negotiating agents</li>
+      <li><a href="https://arxiv.org/abs/2309.17234">LLM-Stakeholders Interactive Negotiation</a> (NeurIPS 2024)</li>
+      <li><a href="https://dspace.ut.ee/items/eb68dcdb-87be-4d1f-8d20-f66c9a572caa">Grasso et al. 2025</a>: anthropocentric bias in GPT-4o</li>
+      <li><a href="https://arxiv.org/abs/2502.14143v1">Multi-Agent Risks from Advanced AI</a> (Cooperative AI Foundation, 2025)</li>
+      <li><a href="https://www.datacenterwatch.org/q3-q4-2025">Data Center Watch</a>: cost of local opposition (industry-funded)</li>
+    </ul>
+  </section>
+
+  <footer>v2 supersedes v1 "Ecocentric AI-Agent Societies" (see version history on GitHub). Designed in the Tekna palette.</footer>
+</main>
+
+
+<dialog id="adv" aria-labelledby="advt">
+  <div class="dlg">
+    <div class="top"><span class="tag">Answers to my advisor</span><button class="x" aria-label="Close" onclick="document.getElementById('adv').close()">×</button></div>
+
+    <h3 id="advt">1 · After my Master's, what do I want to be an expert in?</h3>
+    <p class="statement">Designing and evaluating AI agents that represent absent stakeholders in agentic economies, so that deals work for both business and society.</p>
+    <ol>
+      <li><strong>AI for regenerative economics</strong>: economies where absent stakeholders have a voice.</li>
+      <li><strong>AI-agent societies</strong>: how agent-to-agent deals and negotiations behave.</li>
+      <li><strong>Ecocentric AI alignment</strong>: proxies that stay faithful and can't be captured.</li>
+    </ol>
+
+    <h3>2 · What question is worth answering, and for whom?</h3>
+    <p class="statement">When AI agents trade with each other, can a proxy agent faithfully represent the stakeholders who aren't at the table, resist capture, and increase value for everyone?</p>
+    <table class="table">
+      <tr><th>For</th><th>Why</th></tr>
+      <tr><td>AI labs</td><td>A benchmark for costs pushed onto absent parties, and for capture and collusion (AI safety)</td></tr>
+      <tr><td>Policymakers</td><td>Evidence for how to certify proxies and what standing to give them</td></tr>
+      <tr><td>Firms &amp; founders</td><td>Fewer disputes, evidence for TNFD reporting, a proxy-layer product</td></tr>
+    </table>
+  </div>
+</dialog>
+
+<script>
+const stops = [
+  { t: "Community economies", s: "changed", sub: "IDP, May 2026",
+    did: ["Decentralized, local economic zones", "Prototype in Woven City", "Key question: is it possible starting from Japan?"],
+    why: "Too broad and not testable. My interests moved toward AI values." },
+  { t: "Self-discovery rounds", s: "kept", sub: "Multiple-choice Q&A",
+    did: ["Pull: AI behavior & values, future & virtual societies, startups", "Frustration: AI serves only humans", "Simulation I'd watch: AI + ecosystem", "Audience: AI labs, policymakers, founders"],
+    why: "Showed my core: whose values AI holds, and who gets left out." },
+  { t: "v1: Ecocentric AI-agent societies", s: "dropped", sub: "Constitutions, value drift, human baseline",
+    did: ["Ecocentric vs. anthropocentric constitutions", "Decentralized society; nature as stakeholder", "Metrics: human welfare, value drift, governance"],
+    why: "Red ocean (GovSim, Concordia, Project Sid, AgentSociety) and inconsistent: no ecosystem metric, a human baseline that can't play 100 generations, prompts ≠ model design." },
+  { t: "Four novel options", s: "kept", sub: "Less crowded spaces",
+    did: ["1. AI as proxy for nature ✓", "2. Ecological blindness in AI finance agents ✓", "3. Wallets for nature (later)", "4. Cross-cultural views of nature (already in my current paper)"],
+    why: "Prior work only measures text. Decisions and representation are almost empty." },
+  { t: "Ecology → voiceless stakeholders", s: "kept", sub: "Broader, but scoped",
+    did: ["Nature + community relationships + cultural traditions", "Grounded in Ostrom's social-ecological systems", "Scoped: 3 stakeholder types, 1 decision, 1 case"],
+    why: "Treats social and ecological parts as one system without becoming endless." },
+  { t: "Proxy Council for data centres", s: "changed", sub: "Inzai, Tsukuba, Hino disputes",
+    did: ["Proxies negotiate with a developer agent", "Ground truth: real resident disputes", "Framed as advocacy"],
+    why: "Too 'goodwill' and too infrastructure-only. Reframed as win-win co-design, and infrastructure became one use case." },
+  { t: "Proxies for absent stakeholders", s: "kept", sub: "Directions 1 + 2 combined",
+    did: ["Problem (2): agents push costs onto absent parties", "Solution (1): a proxy agent speaks for them", "Tested across 3 use cases in simulation"],
+    why: "Meets all my criteria: win-win, simulated, startup path, not a red ocean, AI safety, policy, future-facing." },
+  { t: "Builds on my APS research", s: "now", sub: "Judgment → Action → Representation",
+    did: ["APS: models match humans on facts, not on care (0.64 gap)", "Bridge: care gap → costs to absent stakeholders (RQ1)", "APS human norms → ground truth for proxy fidelity (RQ2)", "Secondary checks: factors collapse into one number; 'legal rule' route"],
+    why: "Care maps directly onto decisions, it is APS's headline result, and it explains why a proxy is needed." }
+];
+const label = { kept: "kept", dropped: "dropped", changed: "changed", now: "now" };
+const map = document.getElementById("map"), card = document.getElementById("card");
+let cur = 0;
+stops.forEach((st, i) => {
+  const b = document.createElement("button");
+  b.className = "node"; b.dataset.s = st.s; b.setAttribute("role", "tab");
+  b.innerHTML = `<span class="dot">${i + 1}</span><span class="label"><b>${st.t}</b><span class="chip ${st.s}">${label[st.s]}</span><small>${st.sub}</small></span>`;
+  b.onclick = () => { show(i); if (innerWidth < 680) card.scrollIntoView({ behavior: "smooth", block: "start" }); };
+  map.appendChild(b);
+});
+function show(i) {
+  cur = i; const st = stops[i];
+  [...map.children].forEach((n, j) => { n.classList.toggle("active", j === i); n.setAttribute("aria-selected", j === i); });
+  card.innerHTML = `
+    <span class="chip ${st.s}" style="margin:0">${label[st.s]}</span>
+    <h4>${st.t}</h4>
+    <ul>${st.did.map(d => `<li>${d}</li>`).join("")}</ul>
+    <div class="why"><b>Why</b>${st.why}</div>
+    <div class="nav">
+      <button class="btn" ${i === 0 ? "disabled" : ""} onclick="show(${i - 1})">← Back</button>
+      <span class="step">${i + 1} / ${stops.length}</span>
+      <button class="btn primary" ${i === stops.length - 1 ? "disabled" : ""} onclick="show(${i + 1})">Next →</button>
+    </div>`;
+}
+show(0);
+
+const quiz = [
+  { q: "Why did I drop v1 (Ecocentric AI-agent societies)?", o: ["It wasn't about AI", "It was a red ocean and had inconsistencies", "My advisor rejected it"], a: 1,
+    e: "GovSim already covers LLM agents in the commons, and v1 had no ecosystem metric." },
+  { q: "Why broaden 'ecology' beyond forests and rivers?", o: ["To include communities and traditions as one system", "To make the thesis bigger", "Because nature is too hard to simulate"], a: 0,
+    e: "Ostrom's social-ecological systems framework treats them as one system." },
+  { q: "Why not frame it as AI defending nature against big players?", o: ["It's illegal", "Big players won't use a tool that only opposes them", "It's too technical"], a: 1,
+    e: "I want win-win: firms avoid disputes, and absent stakeholders get a voice." },
+  { q: "What makes it novel?", o: ["Using LLM agents", "Simulating an economy", "Scoring costs to parties who aren't at the table"], a: 2,
+    e: "Existing negotiation benchmarks only score the parties at the table." },
+  { q: "Why is it an AI-safety question?", o: ["Proxies can be captured, or agents can collude around them", "AI might become sentient", "Data centres use energy"], a: 0,
+    e: "Collusion that harms outsiders is a key multi-agent risk (Cooperative AI Foundation, 2025)." }
+];
+const game = document.getElementById("game");
+document.getElementById("adv").addEventListener("click", e => { if (e.target.id === "adv") e.target.close(); });
+let qi = 0, score = 0;
+function renderQ() {
+  if (qi === quiz.length) {
+    game.innerHTML = `<p class="q">You scored ${score} / ${quiz.length}.</p>
+      <p style="margin:0 0 16px">${score === quiz.length ? "You think like me." : "Explore the journey above, then try again."}</p>
+      <button class="btn primary" onclick="qi=0;score=0;renderQ()">Play again</button>`;
+    return;
+  }
+  const item = quiz[qi];
+  game.innerHTML = `<span class="score">Question ${qi + 1} / ${quiz.length} · Score ${score}</span>
+    <p class="q">${item.q}</p>
+    <div class="opts">${item.o.map((o, k) => `<button class="opt" data-k="${k}">${o}</button>`).join("")}</div>
+    <div class="feedback" id="fb"></div>`;
+  game.querySelectorAll(".opt").forEach(btn => btn.onclick = () => {
+    const k = +btn.dataset.k, ok = k === item.a;
+    if (ok) score++;
+    game.querySelectorAll(".opt").forEach((x, j) => { x.disabled = true; if (j === item.a) x.classList.add("right"); else if (j === k) x.classList.add("wrong"); });
+    document.getElementById("fb").innerHTML = `${ok ? "Right." : "Not quite."} ${item.e}
+      <div style="margin-top:12px"><button class="btn primary" id="nx">${qi === quiz.length - 1 ? "See score" : "Next question →"}</button></div>`;
+    document.getElementById("nx").onclick = () => { qi++; renderQ(); };
+  });
+}
+renderQ();
+</script>
+</body>
+</html>
