@@ -77,6 +77,13 @@
   .tl small { display: block; color: var(--muted); font-size: 13px; margin-bottom: 4px; }
   .tl b { color: var(--head); font-family: Outfit, sans-serif; font-weight: 600; }
 
+  .tip { position: relative; cursor: help; }
+  .tip .info { font-size: 14px; font-weight: 600; color: var(--muted); }
+  .tipbox { position: absolute; left: 16px; right: 16px; top: calc(100% - 10px); z-index: 3; background: var(--murasaki); color: var(--cream);
+            border-radius: 14px; padding: 16px 18px; font-size: 17px; line-height: 1.45; box-shadow: 0 16px 40px rgba(92,17,66,.3);
+            opacity: 0; pointer-events: none; transform: translateY(6px); transition: opacity .15s, transform .15s; }
+  .tipbox b { color: var(--cream); font-family: Outfit, sans-serif; }
+  .tip:hover .tipbox, .tip:focus .tipbox, .tip.open .tipbox { opacity: 1; transform: none; }
   /* Controls */
   .ctrl { position: fixed; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 10px; z-index: 5; }
   .ctrl button, .ctrl a { border: 2px solid var(--murasaki); background: var(--surface); color: var(--head); font-weight: 600; font-size: 14px; padding: 6px 14px;
@@ -89,8 +96,6 @@
 </head>
 <body>
 <div class="progress" id="prog"></div>
-<div class="tapL" id="tapL" aria-hidden="true"></div>
-<div class="tapR" id="tapR" aria-hidden="true"></div>
 
 <div id="stage">
 
@@ -195,7 +200,8 @@
     <p class="kicker">Research questions</p>
     <h2>Four questions</h2>
     <div class="grid g2">
-      <div class="card"><span class="tag">RQ1 · Pareto</span><h3>Do proxies move deals toward the frontier?</h3>Compared with no representation and with today's practice</div>
+      <div class="card tip" tabindex="0"><span class="tag">RQ1 · Pareto</span> <span class="info">ⓘ how?</span><h3>Do proxies move deals toward the frontier?</h3>Compared with no representation and with today's practice
+        <div class="tipbox"><b>How do we know?</b><br>In the simulation, deals come from a fixed menu (site, water, tax…). We score every option for each side. Options no other option beats for everyone = the frontier. Then we check: did the agents' deal land on it, or below it (lose-lose)?</div></div>
       <div class="card"><span class="tag">RQ2 · Fidelity</span><h3>Does the proxy see things like the people it represents?</h3>Red lines, beliefs, how it updates, and whether people notice drift</div>
       <div class="card"><span class="tag">RQ3 · Control &amp; capture</span><h3>Who steers the proxy?</h3>Can deception or capture push the deal off the frontier?</div>
       <div class="card"><span class="tag">RQ4 · Human flourishing</span><h3>Do people feel more heard, or replaced?</h3>A small pilot survey</div>
@@ -367,8 +373,13 @@ function go(n) {
 }
 document.getElementById("prev").onclick = () => go(i - 1);
 document.getElementById("next").onclick = () => go(i + 1);
-document.getElementById("tapL").onclick = () => go(i - 1);
-document.getElementById("tapR").onclick = () => go(i + 1);
+stage.addEventListener("click", e => {
+  const t = e.target.closest(".tip");
+  if (t) { t.classList.toggle("open"); return; }
+  if (e.target.closest("a, button")) return;
+  const r = stage.getBoundingClientRect(), x = (e.clientX - r.left) / r.width;
+  if (x < .3) go(i - 1); else if (x > .7) go(i + 1);
+});
 document.getElementById("fs").onclick = () => document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.();
 addEventListener("keydown", e => {
   if (["ArrowRight", "PageDown", " "].includes(e.key)) { e.preventDefault(); go(i + 1); }
