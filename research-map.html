@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thesis Research Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FBF3EC; --lilac: #DDC8EE; --lilac-tint: #F1E7F6; --murasaki: #5C1142;
+    --bg: var(--cream); --surface: #FFFBF7; --soft: var(--lilac-tint);
+    --text: #5F4C5B; --muted: #8A7586; --head: var(--murasaki); --line: #EADFEC;
+    --lattice: rgba(92, 17, 66, .06); --shadow: 0 12px 36px rgba(92, 17, 66, .16);
+  }
+  * { box-sizing: border-box; }
+  html, body { overflow-x: clip; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.55 "DM Sans", system-ui, sans-serif; }
+  h1, h2, h3, h4 { font-family: Outfit, "DM Sans", sans-serif; color: var(--head); }
+  a { color: var(--head); }
+
+  .hero { position: relative; overflow: hidden; background-color: var(--soft);
+    background-image: linear-gradient(var(--lattice) 1px, transparent 1px), linear-gradient(90deg, var(--lattice) 1px, transparent 1px),
+      linear-gradient(45deg, transparent 48%, var(--lattice) 49%, var(--lattice) 51%, transparent 52%),
+      linear-gradient(-45deg, transparent 48%, var(--lattice) 49%, var(--lattice) 51%, transparent 52%);
+    background-size: 28px 28px; }
+  .hero::after { content: ""; position: absolute; width: 200px; height: 200px; border-radius: 50%; border: 16px solid var(--lilac); right: -50px; top: -60px; }
+  .hero .in { position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; padding: 36px 16px 30px; }
+  .back { display: inline-block; font-size: 14px; font-weight: 600; text-decoration: none; background: var(--lilac); padding: 4px 14px; border-radius: 999px; }
+  h1 { font-size: clamp(28px, 5vw, 42px); margin: 14px 0 6px; line-height: 1.1; }
+  .sub { color: var(--muted); margin: 0; }
+
+  main { max-width: 1000px; margin: 0 auto; padding: 30px 16px 70px; }
+  section { margin-bottom: 60px; }
+  h2 { display: flex; align-items: baseline; gap: 12px; font-size: 24px; margin: 0 0 6px; }
+  .num { color: var(--lilac); font-size: 34px; font-weight: 700; line-height: 1; -webkit-text-stroke: 1px var(--murasaki); }
+  .hint { color: var(--muted); font-size: 14px; margin: 0 0 20px; }
+
+  /* Flowchart */
+  .flow { display: grid; gap: 0; justify-items: center; }
+  .row { display: grid; gap: 14px; width: 100%; }
+  .row.one { grid-template-columns: minmax(0, 640px); justify-content: center; }
+  .row.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .row.two { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); align-items: stretch; }
+  .step { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; position: relative; }
+  .step.key { border: 2px solid var(--murasaki); }
+  .step.side { border-style: dashed; }
+  .step .lbl { display: inline-flex; align-items: center; gap: 8px; font-family: Outfit, sans-serif; font-size: 12px; font-weight: 700;
+               text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  .step .lbl .n { width: 22px; height: 22px; border-radius: 50%; background: var(--murasaki); color: var(--cream); display: grid; place-items: center; font-size: 11px; letter-spacing: 0; }
+  .step h3 { margin: 6px 0 4px; font-size: 18px; line-height: 1.2; }
+  .step p { margin: 0 0 10px; font-size: 14px; }
+  .ladder { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 0 0 10px; font-size: 12px; }
+  .ladder span { background: var(--soft); border: 1px solid var(--lilac); color: var(--head); font-weight: 600; padding: 2px 9px; border-radius: 999px; }
+  .ladder i { color: var(--muted); font-style: normal; }
+  .refs { display: flex; flex-wrap: wrap; gap: 6px; border-top: 1px dashed var(--line); padding-top: 10px; }
+  .ref { font-size: 12px; text-decoration: none; background: var(--lilac); color: var(--head); padding: 3px 10px; border-radius: 999px; font-weight: 600; }
+  a.ref:hover { background: var(--murasaki); color: var(--cream); }
+  .ref.gap { background: transparent; border: 1px dashed var(--murasaki); }
+  .ref.mine { background: var(--murasaki); color: var(--cream); }
+  .arrow { height: 30px; width: 2px; background: var(--murasaki); position: relative; margin: 0 auto; }
+  .arrow::after { content: ""; position: absolute; bottom: -1px; left: 50%; transform: translateX(-50%); border: 6px solid transparent; border-top-color: var(--murasaki); border-bottom: 0; }
+  .fork { width: 100%; display: grid; grid-template-columns: repeat(3, 1fr); position: relative; height: 34px; }
+  .fork::before { content: ""; position: absolute; top: 0; left: 16.66%; right: 16.66%; height: 2px; background: var(--murasaki); }
+  .fork.join::before { top: auto; bottom: 0; }
+  .fork span { justify-self: center; width: 2px; height: 100%; background: var(--murasaki); position: relative; }
+  .fork:not(.join) span::after { content: ""; position: absolute; bottom: -1px; left: 50%; transform: translateX(-50%); border: 6px solid transparent; border-top-color: var(--murasaki); border-bottom: 0; }
+  .stem { height: 16px; width: 2px; background: var(--murasaki); margin: 0 auto; }
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 13px; color: var(--muted); margin-bottom: 18px; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+
+  /* Venn */
+  .venn-wrap { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 24px; align-items: center; }
+  .venn svg { width: 100%; height: auto; display: block; }
+  .venn .ds { cursor: pointer; }
+  .venn .ds text { font-family: "DM Sans", sans-serif; font-size: 14px; fill: #5C1142; font-weight: 600; }
+  .venn .ds rect { fill: #FFFBF7; stroke: #DDC8EE; }
+  .venn .ds:hover rect, .venn .ds.on rect { fill: #5C1142; stroke: #5C1142; }
+  .venn .ds:hover text, .venn .ds.on text { fill: #FBF3EC; }
+  .info { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; min-height: 200px; }
+  .info h4 { margin: 0 0 4px; font-size: 20px; }
+  .info .where { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+  .info dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; margin: 0; font-size: 14px; }
+  .info dt { font-weight: 700; color: var(--head); }
+  .info dd { margin: 0; }
+  .gapnote { margin-top: 16px; border: 1px dashed var(--murasaki); border-radius: 12px; padding: 10px 14px; font-size: 14px; }
+  .list { display: none; margin-top: 14px; }
+  .list h4 { margin: 12px 0 6px; font-size: 15px; }
+  .list button { border: 1px solid var(--line); background: var(--surface); color: var(--head); font: 600 13px "DM Sans", sans-serif; padding: 4px 10px; border-radius: 999px; margin: 0 6px 6px 0; cursor: pointer; }
+
+  footer { max-width: 1000px; margin: 0 auto; padding: 18px 16px 40px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); }
+
+  @media (max-width: 760px) {
+    .row.three, .row.two { grid-template-columns: 1fr; }
+    .fork { display: none; }
+    .row.three .step + .step::before, .row.two .step + .step::before { content: ""; position: absolute; top: -14px; left: 50%; width: 2px; height: 14px; background: var(--murasaki); }
+    .venn-wrap { grid-template-columns: 1fr; }
+
+    .list { display: block; }
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="in">
+    <a class="back" href="master-thesis.html">← Thesis page</a>
+    <h1>Research Map</h1>
+    <p class="sub">My study step by step, the past research behind each step, and the datasets I can use.</p>
+  </div>
+</header>
+
+<main>
+  <section>
+    <h2><span class="num">01</span>Study flowchart</h2>
+    <p class="hint">Chips under each step are past studies. Tap one to open it.</p>
+    <div class="legend">
+      <span><span class="ref" style="pointer-events:none">study</span> past research</span>
+      <span><span class="ref mine" style="pointer-events:none">mine</span> my own work</span>
+      <span><span class="ref gap" style="pointer-events:none">gap</span> what's missing</span>
+    </div>
+
+    <div class="flow">
+      <div class="row one">
+        <div class="step">
+          <span class="lbl"><span class="n">0</span>Foundation</span>
+          <h3>Does AI care about who matters?</h3>
+          <p>AI knows the facts about people and nature, but cares less than humans do.</p>
+          <div class="refs">
+            <a class="ref mine" href="https://tuba-sds.github.io/Final-APS/research-flow.html" target="_blank" rel="noopener">My APS research</a>
+            <a class="ref" href="https://dspace.ut.ee/items/eb68dcdb-87be-4d1f-8d20-f66c9a572caa" target="_blank" rel="noopener">Grasso 2025</a>
+            <a class="ref" href="https://www.nature.com/articles/s41562-026-02611-4" target="_blank" rel="noopener">Chen 2026 (weak proxies)</a>
+          </div>
+        </div>
+      </div>
+      <div class="arrow"></div>
+
+      <div class="row one">
+        <div class="step">
+          <span class="lbl"><span class="n">1</span>Pick a case + collect real voices</span>
+          <h3>One real dispute, with what people actually said</h3>
+          <p>E.g. Memphis data centre: hearings, lawsuits, news.</p>
+          <div class="refs">
+            <a class="ref" href="https://arxiv.org/abs/2402.17161v1" target="_blank" rel="noopener">LLM urban planning 2024</a>
+            <a class="ref" href="https://www.datacenterwatch.org/q3-q4-2025" target="_blank" rel="noopener">Data Center Watch</a>
+          </div>
+        </div>
+      </div>
+      <div class="arrow"></div>
+
+      <div class="row one">
+        <div class="step key">
+          <span class="lbl"><span class="n">2</span>Build the proxies</span>
+          <h3>How much grounding makes a proxy faithful?</h3>
+          <div class="ladder"><span>a · Demographics only</span><i>→</i><span>b · Real testimony</span><i>→</i><span>c · + Human correction</span></div>
+          <div class="refs">
+            <a class="ref" href="https://www.nature.com/articles/s41562-026-02611-4" target="_blank" rel="noopener">Chen 2026 = level a</a>
+            <a class="ref" href="https://arxiv.org/abs/2411.10109v1" target="_blank" rel="noopener">Park 2024: 1,000 people</a>
+            <a class="ref" href="https://arxiv.org/abs/2505.17479" target="_blank" rel="noopener">Twin-2K-500</a>
+            <span class="ref">Centaur 2025</span>
+            <a class="ref" href="https://arxiv.org/abs/2502.09369v1" target="_blank" rel="noopener">Jarrett: AI representatives</a>
+          </div>
+        </div>
+      </div>
+      <div class="arrow"></div>
+
+      <div class="row one">
+        <div class="step key">
+          <span class="lbl"><span class="n">3</span>Simulate the negotiation</span>
+          <h3>Company, town and proxy agents make a deal</h3>
+          <div class="ladder"><span>a · No representation</span><i>→</i><span>b · Today's practice</span><i>→</i><span>c · Proxy agents</span></div>
+          <p>Agent traits are tunable: rationality, openness, information access.</p>
+          <div class="refs">
+            <a class="ref" href="https://arxiv.org/abs/2309.17234" target="_blank" rel="noopener">LLM-Stakeholders 2024</a>
+            <a class="ref" href="https://workshop-proceedings.icwsm.org/pdf/2025_34.pdf" target="_blank" rel="noopener">Port negotiation 2025</a>
+            <a class="ref" href="https://arxiv.org/abs/2404.16698" target="_blank" rel="noopener">GovSim 2024</a>
+          </div>
+        </div>
+      </div>
+      <div class="stem"></div>
+      <div class="fork"><span></span><span></span><span></span></div>
+
+      <div class="row three">
+        <div class="step">
+          <span class="lbl"><span class="n">4</span>RQ1 · Pareto</span>
+          <h3>Did the proxy avoid lose-lose deals?</h3>
+          <div class="refs">
+            <a class="ref" href="https://arxiv.org/abs/2404.16698" target="_blank" rel="noopener">GovSim</a>
+            <a class="ref" href="https://arxiv.org/html/2607.02814" target="_blank" rel="noopener">Faithful Delegates</a>
+            <span class="ref gap">No study scores absent parties</span>
+          </div>
+        </div>
+        <div class="step">
+          <span class="lbl"><span class="n">5</span>RQ2 · Fidelity</span>
+          <h3>Does the proxy see things like the people do?</h3>
+          <div class="refs">
+            <a class="ref" href="https://www.nature.com/articles/s41562-026-02611-4" target="_blank" rel="noopener">Chen 2026</a>
+            <a class="ref" href="https://arxiv.org/abs/2402.01908v1" target="_blank" rel="noopener">Wang: flattening</a>
+            <a class="ref" href="https://www.pewresearch.org/data-labs/2026/09/30/can-ai-stand-in-for-human-survey-takers-not-really/" target="_blank" rel="noopener">Pew 2026</a>
+          </div>
+        </div>
+        <div class="step">
+          <span class="lbl"><span class="n">6</span>RQ3 · Capture</span>
+          <h3>Can someone trick or hijack the proxy?</h3>
+          <div class="refs">
+            <a class="ref" href="https://arxiv.org/pdf/2510.15501v2" target="_blank" rel="noopener">AgoraBench</a>
+            <a class="ref" href="https://arxiv.org/pdf/2603.07202" target="_blank" rel="noopener">Agent Red Teaming</a>
+            <a class="ref" href="https://arxiv.org/abs/2502.14143v1" target="_blank" rel="noopener">Multi-Agent Risks 2025</a>
+          </div>
+        </div>
+      </div>
+      <div class="fork join"><span></span><span></span><span></span></div>
+      <div class="arrow"></div>
+
+      <div class="row one">
+        <div class="step side">
+          <span class="lbl"><span class="n">7</span>RQ4 · Human pilot</span>
+          <h3>Do people feel more heard, or replaced?</h3>
+          <div class="refs">
+            <span class="ref">Habermas Machine 2024</span>
+            <a class="ref" href="https://arxiv.org/abs/2309.01291" target="_blank" rel="noopener">Generative Social Choice</a>
+          </div>
+        </div>
+      </div>
+      <div class="arrow"></div>
+
+      <div class="row one">
+        <div class="step key">
+          <span class="lbl"><span class="n">8</span>Outputs</span>
+          <h3>Paper · open benchmark · "proxy label"</h3>
+          <p>Later: a proxy API (startup) and proxy certification rules (policy).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">02</span>Datasets</h2>
+    <p class="hint">Tap a dataset to see what it holds and how I'd use it.</p>
+    <div class="venn-wrap">
+      <div class="venn">
+        <svg viewBox="0 0 760 700" role="img" aria-label="Venn diagram of datasets in three overlapping groups">
+          <circle cx="290" cy="270" r="215" fill="#DDC8EE" fill-opacity=".45" stroke="#5C1142" stroke-width="1.5"/>
+          <circle cx="470" cy="270" r="215" fill="#F1E7F6" fill-opacity=".6" stroke="#5C1142" stroke-width="1.5"/>
+          <circle cx="380" cy="430" r="215" fill="#EBDDF3" fill-opacity=".55" stroke="#5C1142" stroke-width="1.5"/>
+          <text x="190" y="38" text-anchor="middle" font-family="Outfit, sans-serif" font-size="19" font-weight="700" fill="#5C1142">What people value</text>
+          <text x="570" y="38" text-anchor="middle" font-family="Outfit, sans-serif" font-size="19" font-weight="700" fill="#5C1142">Real disputes</text>
+          <text x="380" y="682" text-anchor="middle" font-family="Outfit, sans-serif" font-size="19" font-weight="700" fill="#5C1142">Nature &amp; culture</text>
+          <g id="dsLayer"></g>
+          <circle cx="380" cy="330" r="14" fill="#FFFBF7" stroke="#5C1142" stroke-dasharray="3 3"/>
+          <text x="380" y="335" text-anchor="middle" font-family="Outfit, sans-serif" font-size="14" font-weight="700" fill="#5C1142">?</text>
+        </svg>
+        <div class="list" id="list"></div>
+      </div>
+      <div>
+        <div class="info" id="info" aria-live="polite"></div>
+        <div class="gapnote"><strong>The middle is empty.</strong> No single dataset has values + disputes + nature together. Combining them for one case is part of my contribution.</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>Research map · part of <a href="master-thesis.html">Proxies for Absent Stakeholders in Agentic Economies</a> · Tekna palette</footer>
+
+<script>
+const ds = [
+  { id: "gps", n: "Global Preference Survey", x: 180, y: 170, where: "What people value", what: "80K people, 76 countries: risk, patience, trust, altruism", use: "The baseline Chen et al. used", access: "Free (briq)" },
+  { id: "goqa", n: "GlobalOpinionQA", x: 180, y: 205, where: "What people value", what: "Global poll questions ready for testing AI", use: "Check proxy views against real opinion", access: "Free on Hugging Face", url: "https://huggingface.co/datasets/Anthropic/llm_global_opinions" },
+  { id: "twin", n: "Twin-2K-500", x: 180, y: 240, where: "What people value", what: "2,058 people each answered 500+ questions", use: "Proxy grounding ladder (RQ2)", access: "Free", url: "https://huggingface.co/datasets/krajavi3/Twin-2K-500" },
+  { id: "jgss", n: "JGSS (Japan)", x: 180, y: 275, where: "What people value", what: "Japanese General Social Survey", use: "Japan cases", access: "Free, registration" },
+  { id: "cdp", n: "Council Data Project", x: 580, y: 170, where: "Real disputes", what: "City council meetings as searchable text", use: "Public testimony for proxies", access: "Free, open source", url: "https://civictech.guide/projects/council-data-project" },
+  { id: "court", n: "CourtListener", x: 580, y: 205, where: "Real disputes", what: "US court cases and filings", use: "Lawsuit text (e.g. Memphis)", access: "Free API", url: "https://www.courtlistener.com" },
+  { id: "regs", n: "Public comments", x: 580, y: 240, where: "Real disputes", what: "Regulations.gov (US) + e-Gov (Japan) comments on rules", use: "What people actually said", access: "Free API" },
+  { id: "dcw", n: "Data Center Watch", x: 580, y: 275, where: "Real disputes", what: "Data-centre projects blocked or delayed", use: "Picking cases", access: "Free reports", url: "https://www.datacenterwatch.org/q3-q4-2025" },
+  { id: "wvs", n: "World Values Survey", x: 250, y: 385, where: "Values ∩ Nature & culture", what: "Values and beliefs in ~100 countries, incl. Japan", use: "Culture and red lines", access: "Free", url: "https://www.worldvaluessurvey.org" },
+  { id: "issp", n: "ISSP Environment", x: 250, y: 420, where: "Values ∩ Nature & culture", what: "Attitudes to nature across countries", use: "The nature stakeholder", access: "Free (GESIS)" },
+  { id: "mm", n: "Moral Machine", x: 250, y: 455, where: "Values ∩ Nature & culture", what: "Millions of moral choices, 200+ countries", use: "Red lines and culture", access: "Free (OSF)" },
+  { id: "ej", n: "EJAtlas", x: 510, y: 395, where: "Disputes ∩ Nature & culture", what: "4,000+ coded fights between companies and communities", use: "Absent stakeholders and outcomes", access: "Free online; bulk on request", url: "https://ejatlas.org" },
+  { id: "sabin", n: "Sabin Center", x: 510, y: 430, where: "Disputes ∩ Nature & culture", what: "2,700+ climate lawsuits, some Rights of Nature", use: "Legal red lines", access: "Free", url: "https://www.adaptationclearinghouse.org/resources/sabin-center-climate-litigation-database.html" }
+];
+const layer = document.getElementById("dsLayer");
+const NS = "http://www.w3.org/2000/svg";
+ds.forEach(d => {
+  const g = document.createElementNS(NS, "g");
+  g.setAttribute("class", "ds"); g.setAttribute("tabindex", "0"); g.setAttribute("role", "button"); g.dataset.id = d.id;
+  const t = document.createElementNS(NS, "text");
+  t.setAttribute("x", d.x); t.setAttribute("y", d.y + 4); t.setAttribute("text-anchor", "middle"); t.textContent = d.n;
+  const r = document.createElementNS(NS, "rect");
+  g.appendChild(r); g.appendChild(t); layer.appendChild(g);
+  const b = t.getBBox();
+  r.setAttribute("x", b.x - 8); r.setAttribute("y", b.y - 4); r.setAttribute("width", b.width + 16); r.setAttribute("height", b.height + 8); r.setAttribute("rx", 11);
+  const pick = () => show(d.id);
+  g.addEventListener("click", pick); g.addEventListener("mouseenter", pick);
+  g.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(); } });
+});
+function show(id) {
+  const d = ds.find(x => x.id === id);
+  layer.querySelectorAll(".ds").forEach(g => g.classList.toggle("on", g.dataset.id === id));
+  document.getElementById("info").innerHTML = `<h4>${d.n}</h4><div class="where">${d.where}</div>
+    <dl><dt>Inside</dt><dd>${d.what}</dd><dt>Use for</dt><dd>${d.use}</dd><dt>Access</dt><dd>${d.url ? `<a href="${d.url}" target="_blank" rel="noopener">${d.access} ↗</a>` : d.access}</dd></dl>`;
+}
+const groups = [...new Set(ds.map(d => d.where))];
+document.getElementById("list").innerHTML = groups.map(g => `<h4>${g}</h4>` + ds.filter(d => d.where === g).map(d => `<button onclick="show('${d.id}')">${d.n}</button>`).join("")).join("");
+show("ej");
+</script>
+</body>
+</html>
