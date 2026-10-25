@@ -62,6 +62,19 @@
   .btn { border: 2px solid var(--murasaki); background: var(--murasaki); color: var(--cream); font-weight: 600; font-size: 14px;
          padding: 7px 16px; border-radius: 999px; text-decoration: none; display: inline-block; }
 
+  /* What's new (gap) tiles */
+  .newgrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+  .nt { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; font-size: 13px; line-height: 1.35; }
+  .nt.full { background: var(--murasaki); border-color: var(--murasaki); color: var(--cream); }
+  .nt b { font-family: Outfit, sans-serif; font-size: 14px; display: block; color: inherit; }
+  .nt .st { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; margin: 2px 0 5px;
+            padding: 1px 7px; border-radius: 999px; background: var(--lilac); color: var(--head); }
+  .nt.full .st { background: var(--cream); }
+  .newhd { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin: 22px 0 10px; }
+  .newhd h3 { margin: 0; }
+  .newhd a { font-size: 13px; }
+  @media (max-width: 680px) { .newgrid { grid-template-columns: 1fr 1fr; } }
+
   /* Hover term (Pareto) */
   .term { border: 0; background: none; padding: 0; font: inherit; color: var(--head); font-weight: 700;
           border-bottom: 2px dotted var(--murasaki); cursor: help; }
@@ -227,6 +240,7 @@
       </select>
     </label>
     <a class="tag" href="research-map.html" style="margin-left:8px;text-decoration:none;background:var(--murasaki);color:var(--cream)">Research map →</a>
+    <a class="tag" href="slides.html" style="margin-left:6px;text-decoration:none;background:var(--murasaki);color:var(--cream)">▶ Slide mode</a>
     <h1>Proxies for Absent Stakeholders in Agentic Economies</h1>
     <div class="bar"></div>
     <div class="meta">Tuba Ali · Graduate School of Design &amp; Science, Chiba Institute of Technology</div>
@@ -271,6 +285,15 @@
             <td class="small">Small pre/post survey</td></tr>
       </table>
       <p class="small" style="margin:8px 0 0">RQ2 data: documented disputes, or APS Paper 2 if the use case fits.</p>
+
+      <div class="newhd"><h3>What's new vs. past research</h3><a href="research-map.html">See the research map →</a></div>
+      <div class="newgrid">
+        <div class="nt full"><b>RQ1</b><span class="st">Fully new</span>No one scores the parties outside the deal.</div>
+        <div class="nt"><b>RQ2</b><span class="st">New setting</span>A proxy built from real testimony. Do people notice when it drifts?</div>
+        <div class="nt"><b>RQ3</b><span class="st">New setting</span>Hijacking a proxy that speaks for outsiders.</div>
+        <div class="nt"><b>RQ4</b><span class="st">New setting</span>AI that acts for you in a deal, not just writes for you.</div>
+      </div>
+      <p class="small" style="margin:8px 0 0">RQ2–4 borrow tested methods; RQ1 is the headline.</p>
     </section>
 
     <section>
